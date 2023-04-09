@@ -1,0 +1,9 @@
+{{ partial "header" . }}
+<h1><a href="/">Dan Donoghue</a> <strong>{{ .Title }}</strong></h1>
+{{ if .Params.abstract }}<p>{{ .Params.abstract | markdownify }}</p>{{ end }}
+{{ if eq .Params.hidetoc nil }}
+	{{ .TableOfContents }}
+{{ end }}
+
+{{ .Content }}
+{{ partial "footer" . }}

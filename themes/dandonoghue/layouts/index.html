@@ -1,0 +1,9 @@
+{{ partial "header" . }}
+<h1><a href="/">Dan Donoghue</a> <strong>The ratio of people to cake is too big</strong></h1>
+{{ range where .Data.Pages.ByDate.Reverse ".Params.hidefromhome" "==" nil }}
+<div>
+	<h1><a href="{{ .RelPermalink }}">{{.Title}}</a></h1>
+	<p>{{ if .Description }}{{ .Description }}{{ else }}{{ .Summary }}{{ end }}</p>
+</div>
+{{ end }}
+{{ partial "footer" . }}
