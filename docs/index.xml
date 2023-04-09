@@ -7,6 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>LSI2008 SAS Controller on EL9</title>
+      <link>http://dan.donoghue.eu/lsi2008-on-el9/</link>
+      <pubDate>Sun, 09 Apr 2023 17:41:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/lsi2008-on-el9/</guid>
+      <description>Problem I&amp;rsquo;ve neglected my home server for a while now so I figured I&amp;rsquo;d upgrade it with some new boot SSDs and a case that isn&amp;rsquo;t hot-boxing my hard-drives. New boot drives, new OS; I decided to go with Rocky Linux 9.1 since CentOS has been fucked around with.
+Part of this upgrade meant moving my existing HDDs off of the integrated SATA controller onto their own dedicated SAS controller with nice clean breakout cables.</description>
+    </item>
+    
+    <item>
       <title>Hire Me!</title>
       <link>http://dan.donoghue.eu/hire-me/</link>
       <pubDate>Thu, 27 Apr 2017 23:37:00 +0000</pubDate>
