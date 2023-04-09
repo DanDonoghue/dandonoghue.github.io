@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dan Donoghue</title>
+    <link>http://dan.donoghue.eu/</link>
+    <description>Recent content on Dan Donoghue</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Thu, 27 Apr 2017 23:37:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hire Me!</title>
+      <link>http://dan.donoghue.eu/hire-me/</link>
+      <pubDate>Thu, 27 Apr 2017 23:37:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/hire-me/</guid>
+      <description>I am looking for a career in network engineering or systems administration that is challenging, interesting, and for an employer who values hard work.
+Latest CV Files English (2017-04-28)
+Transcripts BSc Computer Networking (2014)
+FdSc Computing, Networking, and Software Development (2013)
+BTEC National Diploma, IT Practitioners (2011)</description>
+    </item>
+    
+    <item>
+      <title>Aria2 Web on EL7</title>
+      <link>http://dan.donoghue.eu/aria2-web-on-el7/</link>
+      <pubDate>Sun, 22 May 2016 04:13:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/aria2-web-on-el7/</guid>
+      <description>Aria2 is a CLI download manager that can download files over several different protocols. I&amp;rsquo;ve been meaning to set something like this up for ages, as it&amp;rsquo;s better to download files on my server than to leave another machine turned on.
+Install Aria2 and Apache&amp;rsquo;s httpd The following commands enable the EPEL repo, install aria2 and httpd, and adds a firewall rule to allow HTTP traffic from the public zone.</description>
+    </item>
+    
+    <item>
+      <title>What&#39;s the deal with pings?</title>
+      <link>http://dan.donoghue.eu/whats-the-deal-with-pings/</link>
+      <pubDate>Sun, 15 May 2016 19:20:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/whats-the-deal-with-pings/</guid>
+      <description>Throughout the years I&amp;rsquo;ve been told to turn off ICMP Echo Request (ICMP Type 8) and ICMP Echo Reply (ICMP Type 0), commonly referred to as &amp;ldquo;Ping&amp;rdquo;. Some of these people have been people who should know about this kind of thing, like University teachers and people who work in Network Administration. Their reason: &amp;ldquo;security&amp;rdquo;. I say: &amp;ldquo;bollocks&amp;rdquo;.
+Using the old &amp;ldquo;security&amp;rdquo; excuse is bad enough, because as soon as you mention security to someone who doesn&amp;rsquo;t actively keep up to date with current and past attacks they tend to assume you do.</description>
+    </item>
+    
+    <item>
+      <title>127-bit masks vs 64-bit masks on Point-to-Point links</title>
+      <link>http://dan.donoghue.eu/127-bit-masks-vs-64-bit-masks-ptp/</link>
+      <pubDate>Sun, 08 May 2016 15:47:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/127-bit-masks-vs-64-bit-masks-ptp/</guid>
+      <description>I was looking through the usual subs on Reddit this morning and there was a post about things that scare people, and one of the comments was from someone who&amp;rsquo;s &amp;ldquo;scared of IPv6&amp;rdquo;. Fair enough, hex does look intimidating at first, especially when you&amp;rsquo;re only familiar with 32-bit dotted-decimal. Underneath this was a comment that said someting along the lines of &amp;ldquo;you can tell how familiar someone is at IPv6 by whether they use /127 or /64 on their point-to-point links&amp;rdquo;, which is a reference to RFC6164 compared to the commonly spouted &amp;ldquo;use /64s everywere&amp;rdquo; nonsense suggested by a lot of IPv6 learning resources.</description>
+    </item>
+    
+    <item>
+      <title>Wrong destinations are the way to get there</title>
+      <link>http://dan.donoghue.eu/wrong-destination/</link>
+      <pubDate>Sat, 07 May 2016 01:47:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/wrong-destination/</guid>
+      <description>This evening I was just lounging around thinking about BGP, as you do, and reminded myself about an interesting quirk in IP.
+What&amp;rsquo;s BGP got to do with it? The way I was taught BGP at University emphasised using Loopback interfaces to move the single-point-of-failure you&amp;rsquo;d get physical interfaces, to a less-error prone virtual interface. In a basic two router lab setup with loopbacks implemented on both routers, this makes the network look something like the diagram below.</description>
+    </item>
+    
+    <item>
+      <title>Setting SELinux Contexts the Proper Way</title>
+      <link>http://dan.donoghue.eu/setting-selinux-contexts-the-proper-way/</link>
+      <pubDate>Mon, 02 May 2016 05:37:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/setting-selinux-contexts-the-proper-way/</guid>
+      <description>Almost every mention of SELinux Contexts online references the use of chcon(1) for setting contexts on file and directories. This is a pretty shit way of setting contexts, since these changes don&amp;rsquo;t stay when the file system is relabeled, and with chcon(1) the contexts need to be manually set again after an OS reinstallation.
+The proper way to set contexts is to use semanage(8), which appends a new line with the rule to /etc/selinux/targeted/contexts/files/file_contexts.</description>
+    </item>
+    
+    <item>
+      <title>Option 121: My Favourite Option</title>
+      <link>http://dan.donoghue.eu/option-121-my-favourite-option/</link>
+      <pubDate>Mon, 25 Apr 2016 09:49:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/option-121-my-favourite-option/</guid>
+      <description>I&amp;rsquo;ll start this post off with this: don&amp;rsquo;t judge my skills on how my home network is setup. I use this setup to test out and learn about different techniques, some good, some bad. I would never setup a client&amp;rsquo;s network the way my home network is, but I wouldn&amp;rsquo;t know the best way to do something without trying the wrong ways first.
+As part of my server reinstallation, I&amp;rsquo;ve been messing about with the routing on my network.</description>
+    </item>
+    
+    <item>
+      <title>Building Deluge on CentOS 7</title>
+      <link>http://dan.donoghue.eu/building-deluge-on-centos-7/</link>
+      <pubDate>Sat, 16 Apr 2016 16:43:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/building-deluge-on-centos-7/</guid>
+      <description>Since the deluge and deluge-web packages are omitted from the CentOS/RHEL and EPEL repositories for EL7, and I wouldn&amp;rsquo;t trust some unmaintained 3rd-party repo, I decided to build them from source. The instructions on the Deluge website fail to mention anything about what&amp;rsquo;s needed for CentOS/RHEL distributions so I guess I&amp;rsquo;ll write up what&amp;rsquo;s needed here.
+Download the source Get the latest version of the source from the Deluge project&amp;rsquo;s Source Mirror.</description>
+    </item>
+    
+    <item>
+      <title>Bridging Router Interfaces in IOS</title>
+      <link>http://dan.donoghue.eu/bridging-router-interfaces-in-ios/</link>
+      <pubDate>Fri, 15 Apr 2016 14:03:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/bridging-router-interfaces-in-ios/</guid>
+      <description>I have a strange network setup in my house with many subnets all over the place. To save from either putting a switch downstairs, or another cable run between downstairs and the main switches upstairs, I ended up just connecting the front-room TV to one of the WAN FastEthernet interfaces and setting up an internally-routed /24 for it. This setup gave the TV access to the Internet, but prevents it from reaching my Plex DLNA server, meaning no TV or films.</description>
+    </item>
+    
+  </channel>
+</rss>

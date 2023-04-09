@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+		<title>Wrong destinations are the way to get there</title>
+	</head>
+	<body>
+<h1><a href="/">Dan Donoghue</a> <strong>Wrong destinations are the way to get there</strong></h1>
+
+
+	<nav id="TableOfContents">
+<ul>
+<li><a href="#what-s-bgp-got-to-do-with-it">What&rsquo;s BGP got to do with it?</a></li>
+<li><a href="#what-the-shit-s-going-on">What the shit&rsquo;s going on?</a></li>
+<li><a href="#the-problems">The problems</a></li>
+</ul>
+</nav>
+
+
+
+
+<p>This evening I was just lounging around thinking about BGP, as you do, and reminded myself about an interesting quirk in IP.</p>
+
+<h1 id="what-s-bgp-got-to-do-with-it">What&rsquo;s BGP got to do with it?</h1>
+
+<p>The way I was taught BGP at University emphasised using Loopback interfaces to move the single-point-of-failure you&rsquo;d get physical interfaces, to a less-error prone virtual interface. In a basic two router lab setup with loopbacks implemented on both routers, this makes the network look something like the diagram below.</p>
+
+<p><img src="https://lh3.googleusercontent.com/LRacoERsdST95GJVaxxxfU-ymSA9HaG64CJ8MRy4JTPY6E4Ktp9150qaLq5P4xZoMdD4GLVJSwHe0zCxDUj5059t3T2GiCeZ_88VupHotbZwtKXtwAYvrB932R-oDzwxZBgbq-LjPH-VEKVnSbrqjM2OP54jXWwJw_UUErgZROXLhl3QvdR65Ga0JSGvRXaJQ2C0VZssS82cCe4d3NBTNz7fWJZ7kJ29P9alrhtopIhj1Qi4aI1a6i7QX1qYVr4EqbNKVrmoprOgAyewCVAKjC50-zr_zJp6aEhjbKKa8DES4vPHtNJzv6VbXIQnt9ojZtiFhs2S3PvNIm8x3MGwKHO0KUL8S2VRU_TRbJn5kI27p8bNqCNqUQpoHmYmXBQg-i3BxL7WhLiVfcB8n66eygeaghjluAa3erblfwPHTLGrvG5aKT93JpumewFOd4MKZaIjDz98gFzr1y8dOcC2I3EQ6e_kkVHESxDrfg2meh5Auhaczdbm5-UyMIzqvmVoVtnm1kwkaOhyGKkVAjgm5l856YjuMYTrudbfGT0so7jieI3pYZZVvzqiaXyNYGr2jFzrbHaypSxLDp-HGha3GBzZaGtiixOCOAcHryG1N1xXpmbzY-uEEckoPAmbxEIgmYRz5rYWuPw7i9DPYmwStXPd3PJgLEsV6aV6h5gEJA=w922-h266-no" alt="Diagram of two routers with loopbacks" /></p>
+
+<p>So what&rsquo;s quriky about that? It gets a bit more interesting when you look at the configuration.</p>
+
+<pre><code>router bgp 64496
+	neighbor 10.0.0.2 remote-as 64497
+	neighbor 10.0.0.2 ebgp-multihop 2
+	neighbor 10.0.0.2 update-source Loopback0
+</code></pre>
+
+<p>The interesting line is the one that says <code>ebgp-multihop 2</code>. You need to set that for EBPG when the neighbour is more than <code>1</code> hop away. This option is set to <code>2</code> hops, but in my brilliant diagram there&rsquo;s clearly three hops between <code>lo0</code> on <code>R1</code> and <code>lo0</code> on <code>R2</code>, and yet this works.</p>
+
+<h1 id="what-the-shit-s-going-on">What the shit&rsquo;s going on?</h1>
+
+<p><img src="https://lh3.googleusercontent.com/cdv4Mz1wDKppzcEqicM79EItkh2rQStaZaUEbD--RO3e8FS4AQPUJsSPAs4y7V1U-PN7T_6jX-ao279lor8s5CO6L84RktyVXgkzMZYpkAFQZDIMo9PD_WLZwILUqDXw1J94DhZuSD2-isT5SDr1NnArwxEEghmaqgJoAiMfbnX_jhSdKT6AHGtYJhYSi4NwFY-ORAPm3XU71ISdeRgjHqbmjIy2XzpKJVzgU4baCMbdAtQkXJu7Yfviz_p9Fteke8vXbHC11A8SHx3rmrLUEDUfpL9R59YHDSXlwu6YgjxhmSNqJXo_1P3-8ah3Vj-ZGmWXrzdsbFPvH7FhawoQTQnz_49ketxGnIdqzM3itLvB9IaML7Xx2Sha57LvQBvC6V6B0EdULdcFN3IiIE5qWg9vnXhI_NLmCaggB-Bxub7W59mB1D7CgwyvkxJRUxeJxLQ3IQQTLYhNbYD3R2N_RPVi1nt2skQx9iMYvXIqIdmenV-cPsgkTk1BwsDQeG4agPzVNjJTtsiP5QXoRVl5pv0aVbgA9YcLMsC50ryQVpISeCeSH5th3CH2ezhOJDd3h5h6IIjWaEhzztzCEl6-SY2uUw2w0r6bCex52vr7R3hQ5OUST5CR6JXxRMNbOUBqzzOZnc5a1ToL2b_GBbIe7hM2c_zeiIMSqQ4sEMOGDQ=w1006-h424-no" alt="Screenshot of an asymmetric connection" /></p>
+
+<p>What&rsquo;s happening is that the routers are accepting and processing the packets at the interface nearest to the source, even if the destination address doesn&rsquo;t match that interface. This works, as long as the destination address matches <strong>any</strong> of that nodes interfaces. This is shown in the screenshot above, where an ICMP Echo enters the router via one interface, and the Echo-Reply leaves the router using a different interface, specifically the interface that has an address or route that&rsquo;s closer to the source address.</p>
+
+<p>If you think about it, this way makes sense from a performance viewpoint because performing that extra hop for the packet to end up at essentially the same place is a bit inefficient.</p>
+
+<p>This behaviour isn&rsquo;t just limited to routers either, it&rsquo;s also there on end-node stacks like the one in Linux. It&rsquo;s supposed to work that way.</p>
+
+<h1 id="the-problems">The problems</h1>
+
+<p>There&rsquo;s no problems with the behaviour, in principle, but in practice things are a little shady. Because packets can come in on one interface, and be replied to from another, this opens up the possibility for someone to perform a blind attack against a node without the victim node even needing a route to the outside. This means that to be absolutely sure that your node can&rsquo;t receive unsolicited traffic, you have to be sure that none of the other nodes it can connect to have any connection to a lesser-trusted network.</p>
+
+<p>Imagine that I&rsquo;ve sent an ICMP Echo packet to a node connected to two networks, one public, and one private (no routes to other networks, including public); but I&rsquo;ve spoofed the source address to that of a node on the private network and sent the packet from a node on the public network. The node I just pinged will send an Echo-Reply out onto the <strong>private</strong> network, from an event I triggered from outside.</p>
+
+<p>Since anti-spoofing techniques are quite commonly implemented these days, and that blind attacks are one of the most difficult methods of doing any serious damage; knowing this information is kind of irrelevant, but interesting nonetheless.</p>
+
+
+		<footer>
+			<ul>
+				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
+				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
+				<li><a href="/hire-me">Hire Me</a></li>
+			</ul>
+		</footer>
+	</body>
+</html>
+
