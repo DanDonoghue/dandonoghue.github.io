@@ -10,16 +10,16 @@ The proper way to set contexts is to use `semanage(8)`, which appends a new line
 
 Setting contexts with `semanage(8)` and `restorecon(8)` is actually a lot less effort than using `chcon(1)`, mainly because you don't have to specify the context after the first command. I'll give an example. Say you have a directory `/mnt/storage/My Files` that you want to share via Samba, well it needs the `samba_share_t` context. To give it this context with `chcon(1)` you'd run `chcon -t samba_share_t /mnt/storage/My\ Files`, which does work. Now you're copying a load of files from some other directory into the "My Files" directory, these all need the `samba_share_t` context, so you've got to run `chcon -t samba_share_t /mnt/storage/My\ Files -R` to set the correct context. That's a bit of a mouthful.
 
-Using `semanage(8)`, this could be reduced down to running `semanage fcontext -a -t CONTEXT "REGEX"` once, and then running `restorecon -R PATH`. That's a lot less typing for the same effect, with the benefit of the rule being permanent, and transferable between reinstallations. The use of regular expressions is the only real part that's slightly more complex than using `chcon(1)`, but if you're playing about with SELinux then you should be the kind of user who knows or is learning regex anyway. Most of the paths you'd want to use are either using wildcards `(.*)`, or spaces `[\s]`. The example below uses `(\.*)`, which matches both the parent directory and its contents, basically a short way of saying both `/mnt/storage/My Files` and everything inside of it.
+Using `semanage(8)`, this could be reduced down to running `semanage fcontext -a -t CONTEXT "REGEX"` once, and then running `restorecon -R PATH`. That's a lot less typing for the same effect, with the benefit of the rule being permanent, and transferable between reinstallations. The use of regular expressions is the only real part that's slightly more complex than using `chcon(1)`, but if you're playing about with SELinux then you should be the kind of user who knows or is learning regex anyway. Most of the paths you'd want to use are either using wildcards `(.*)`, or spaces `[\s]`. The example below uses `(/.*)`, which matches both the parent directory and its contents, basically a short way of saying both `/mnt/storage/My Files` and everything inside of it.
 
 ```
-semanage fcontext -a -t samba_share_t "/mnt/storage/My[\s]Files(\.*)?"
+semanage fcontext -a -t samba_share_t '/mnt/storage/My[\s]Files(/.*)?'
 restorecon -R /mnt/storage/My\ Files
 ```
 
 Another useful rule is for the custom home-dir location. Say home directories are actually stored at `/mnt/storage/home`, you can run the following to get the context of this directory to persist.
 
 ```
-semanage fcontext -a -t home_root_t "/mnt/storage/home"
-semanage fcontext -a -t user_home_t "/mnt/storage/home/(.*)?"
+semanage fcontext -a -t home_root_t '/mnt/storage/home'
+semanage fcontext -a -t user_home_t '/mnt/storage/home/(.*)?'
 ```
