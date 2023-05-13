@@ -29,60 +29,60 @@
 <h2 id="unattendxml">Unattend.xml</h2>
 <p>While playing around, I wanted to test out a few different ways of using unattend.xml but applying it when running the Sysprep command was taking too damn long. I wanted a quicker way&hellip; what if I ran Sysprep, took a snapshot, and then dumped <code>unattend.xml</code> into the VM where it&rsquo;s supposed to go? Hmm that could work.</p>
 <p>Now, finding out where that XML went was a bit of a pain because Google would come up with millions of results about using it with <code>Sysprep.exe</code> or <code>setup.exe</code> or with MDT. Eventually I found a post that said that it gets saved to <code>\Windows\Panther\unattend.xml</code>. Finally, so I came up with this simple file that&rsquo;ll set the keyboard to the good old English UK layout, set the Administrator password to <code>Pa$$w0rd</code>, and auto-logon a couple of times to save having to login and watch for hours while Windows sets up the new user profile.</p>
-<pre tabindex="0"><code>&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;
-&lt;unattend xmlns=&#34;urn:schemas-microsoft-com:unattend&#34; xmlns:wcm=&#34;http://schemas.microsoft.com/WMIConfig/2002/State&#34;&gt;
-    &lt;settings pass=&#34;windowsPE&#34;&gt;
-        &lt;component name=&#34;Microsoft-Windows-International-Core-WinPE&#34; processorArchitecture=&#34;amd64&#34; publicKeyToken=&#34;31bf3856ad364e35&#34; language=&#34;neutral&#34; versionScope=&#34;nonSxS&#34;&gt;
-            &lt;SetupUILanguage&gt;
-                &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
-            &lt;/SetupUILanguage&gt;
-            &lt;InputLocale&gt;0809:00000809&lt;/InputLocale&gt;
-            &lt;SystemLocale&gt;en-GB&lt;/SystemLocale&gt;
-            &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
-            &lt;UserLocale&gt;en-GB&lt;/UserLocale&gt;
-        &lt;/component&gt;
-        &lt;component name=&#34;Microsoft-Windows-Setup&#34; processorArchitecture=&#34;amd64&#34; publicKeyToken=&#34;31bf3856ad364e35&#34; language=&#34;neutral&#34; versionScope=&#34;nonSxS&#34;&gt;
-            &lt;UserData&gt;
-                &lt;ProductKey&gt;
-                    &lt;Key&gt;&lt;/Key&gt;
-                &lt;/ProductKey&gt;
-                &lt;AcceptEula&gt;true&lt;/AcceptEula&gt;
-            &lt;/UserData&gt;
-        &lt;/component&gt;
-    &lt;/settings&gt;
-    &lt;settings pass=&#34;oobeSystem&#34;&gt;
-        &lt;component name=&#34;Microsoft-Windows-International-Core&#34; processorArchitecture=&#34;amd64&#34; publicKeyToken=&#34;31bf3856ad364e35&#34; language=&#34;neutral&#34; versionScope=&#34;nonSxS&#34;&gt;
-            &lt;InputLocale&gt;0809:00000809&lt;/InputLocale&gt;
-            &lt;SystemLocale&gt;en-GB&lt;/SystemLocale&gt;
-            &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
-            &lt;UserLocale&gt;en-GB&lt;/UserLocale&gt;
-        &lt;/component&gt;
-        &lt;component name=&#34;Microsoft-Windows-Shell-Setup&#34; processorArchitecture=&#34;amd64&#34; publicKeyToken=&#34;31bf3856ad364e35&#34; language=&#34;neutral&#34; versionScope=&#34;nonSxS&#34;&gt;
-            &lt;UserAccounts&gt;
-                &lt;AdministratorPassword&gt;
-                    &lt;Value&gt;UABhACQAJAB3ADAAcgBkAEEAZABtAGkAbgBpAHMAdAByAGEAdABvAHIAUABhAHMAcwB3AG8AcgBkAA==&lt;/Value&gt;
-                    &lt;PlainText&gt;false&lt;/PlainText&gt;
-                &lt;/AdministratorPassword&gt;
-            &lt;/UserAccounts&gt;
-            &lt;AutoLogon&gt;
-                &lt;Username&gt;Administrator&lt;/Username&gt;
-                &lt;Enabled&gt;true&lt;/Enabled&gt;
-                &lt;LogonCount&gt;1&lt;/LogonCount&gt;
-                &lt;Password&gt;
-                    &lt;Value&gt;UABhACQAJAB3ADAAcgBkAFAAYQBzAHMAdwBvAHIAZAA=&lt;/Value&gt;
-                    &lt;PlainText&gt;false&lt;/PlainText&gt;
-                &lt;/Password&gt;
-            &lt;/AutoLogon&gt;
-            &lt;OOBE&gt;
-                &lt;ProtectYourPC&gt;3&lt;/ProtectYourPC&gt;
-                &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
-                &lt;HideWirelessSetupInOOBE&gt;true&lt;/HideWirelessSetupInOOBE&gt;
-            &lt;/OOBE&gt;
-        &lt;/component&gt;
-    &lt;/settings&gt;
-    &lt;cpi:offlineImage cpi:source=&#34;wim:c:/users/dan/documents/install.wim#Windows 11 Pro&#34; xmlns:cpi=&#34;urn:schemas-microsoft-com:cpi&#34; /&gt;
-&lt;/unattend&gt;
-</code></pre><p>Now I can spin up a fresh copy of Windows in a couple of minutes, while only taking up ~12GB of my Surface Pro 5&rsquo;s tiny SSD no matter how many copies I make; and because the image is Sysprepped it&rsquo;s all good for fuckign about with Active Directory.</p>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#bc7a00">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#008000;font-weight:bold">&lt;unattend</span> <span style="color:#7d9029">xmlns=</span><span style="color:#ba2121">&#34;urn:schemas-microsoft-com:unattend&#34;</span> <span style="color:#7d9029">xmlns:wcm=</span><span style="color:#ba2121">&#34;http://schemas.microsoft.com/WMIConfig/2002/State&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;settings</span> <span style="color:#7d9029">pass=</span><span style="color:#ba2121">&#34;windowsPE&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;component</span> <span style="color:#7d9029">name=</span><span style="color:#ba2121">&#34;Microsoft-Windows-International-Core-WinPE&#34;</span> <span style="color:#7d9029">processorArchitecture=</span><span style="color:#ba2121">&#34;amd64&#34;</span> <span style="color:#7d9029">publicKeyToken=</span><span style="color:#ba2121">&#34;31bf3856ad364e35&#34;</span> <span style="color:#7d9029">language=</span><span style="color:#ba2121">&#34;neutral&#34;</span> <span style="color:#7d9029">versionScope=</span><span style="color:#ba2121">&#34;nonSxS&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;SetupUILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;UILanguage&gt;</span>en-US<span style="color:#008000;font-weight:bold">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/SetupUILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;InputLocale&gt;</span>0809:00000809<span style="color:#008000;font-weight:bold">&lt;/InputLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;SystemLocale&gt;</span>en-GB<span style="color:#008000;font-weight:bold">&lt;/SystemLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UILanguage&gt;</span>en-US<span style="color:#008000;font-weight:bold">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UserLocale&gt;</span>en-GB<span style="color:#008000;font-weight:bold">&lt;/UserLocale&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;component</span> <span style="color:#7d9029">name=</span><span style="color:#ba2121">&#34;Microsoft-Windows-Setup&#34;</span> <span style="color:#7d9029">processorArchitecture=</span><span style="color:#ba2121">&#34;amd64&#34;</span> <span style="color:#7d9029">publicKeyToken=</span><span style="color:#ba2121">&#34;31bf3856ad364e35&#34;</span> <span style="color:#7d9029">language=</span><span style="color:#ba2121">&#34;neutral&#34;</span> <span style="color:#7d9029">versionScope=</span><span style="color:#ba2121">&#34;nonSxS&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UserData&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;ProductKey&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#008000;font-weight:bold">&lt;Key&gt;&lt;/Key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;/ProductKey&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;AcceptEula&gt;</span>true<span style="color:#008000;font-weight:bold">&lt;/AcceptEula&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/UserData&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;/settings&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;settings</span> <span style="color:#7d9029">pass=</span><span style="color:#ba2121">&#34;oobeSystem&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;component</span> <span style="color:#7d9029">name=</span><span style="color:#ba2121">&#34;Microsoft-Windows-International-Core&#34;</span> <span style="color:#7d9029">processorArchitecture=</span><span style="color:#ba2121">&#34;amd64&#34;</span> <span style="color:#7d9029">publicKeyToken=</span><span style="color:#ba2121">&#34;31bf3856ad364e35&#34;</span> <span style="color:#7d9029">language=</span><span style="color:#ba2121">&#34;neutral&#34;</span> <span style="color:#7d9029">versionScope=</span><span style="color:#ba2121">&#34;nonSxS&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;InputLocale&gt;</span>0809:00000809<span style="color:#008000;font-weight:bold">&lt;/InputLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;SystemLocale&gt;</span>en-GB<span style="color:#008000;font-weight:bold">&lt;/SystemLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UILanguage&gt;</span>en-US<span style="color:#008000;font-weight:bold">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UserLocale&gt;</span>en-GB<span style="color:#008000;font-weight:bold">&lt;/UserLocale&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;component</span> <span style="color:#7d9029">name=</span><span style="color:#ba2121">&#34;Microsoft-Windows-Shell-Setup&#34;</span> <span style="color:#7d9029">processorArchitecture=</span><span style="color:#ba2121">&#34;amd64&#34;</span> <span style="color:#7d9029">publicKeyToken=</span><span style="color:#ba2121">&#34;31bf3856ad364e35&#34;</span> <span style="color:#7d9029">language=</span><span style="color:#ba2121">&#34;neutral&#34;</span> <span style="color:#7d9029">versionScope=</span><span style="color:#ba2121">&#34;nonSxS&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;UserAccounts&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;AdministratorPassword&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#008000;font-weight:bold">&lt;Value&gt;</span>UABhACQAJAB3ADAAcgBkAEEAZABtAGkAbgBpAHMAdAByAGEAdABvAHIAUABhAHMAcwB3AG8AcgBkAA==<span style="color:#008000;font-weight:bold">&lt;/Value&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#008000;font-weight:bold">&lt;PlainText&gt;</span>false<span style="color:#008000;font-weight:bold">&lt;/PlainText&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;/AdministratorPassword&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/UserAccounts&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;AutoLogon&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;Username&gt;</span>Administrator<span style="color:#008000;font-weight:bold">&lt;/Username&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;Enabled&gt;</span>true<span style="color:#008000;font-weight:bold">&lt;/Enabled&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;LogonCount&gt;</span>1<span style="color:#008000;font-weight:bold">&lt;/LogonCount&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;Password&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#008000;font-weight:bold">&lt;Value&gt;</span>UABhACQAJAB3ADAAcgBkAFAAYQBzAHMAdwBvAHIAZAA=<span style="color:#008000;font-weight:bold">&lt;/Value&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#008000;font-weight:bold">&lt;PlainText&gt;</span>false<span style="color:#008000;font-weight:bold">&lt;/PlainText&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;/Password&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/AutoLogon&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;OOBE&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;ProtectYourPC&gt;</span>3<span style="color:#008000;font-weight:bold">&lt;/ProtectYourPC&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;HideEULAPage&gt;</span>true<span style="color:#008000;font-weight:bold">&lt;/HideEULAPage&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;HideWirelessSetupInOOBE&gt;</span>true<span style="color:#008000;font-weight:bold">&lt;/HideWirelessSetupInOOBE&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/OOBE&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;/settings&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;cpi:offlineImage</span> <span style="color:#7d9029">cpi:source=</span><span style="color:#ba2121">&#34;wim:c:/users/dan/documents/install.wim#Windows 11 Pro&#34;</span> <span style="color:#7d9029">xmlns:cpi=</span><span style="color:#ba2121">&#34;urn:schemas-microsoft-com:cpi&#34;</span> <span style="color:#008000;font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#008000;font-weight:bold">&lt;/unattend&gt;</span></span></span></code></pre></div>
+<p>Now I can spin up a fresh copy of Windows in a couple of minutes, while only taking up ~12GB of my Surface Pro 5&rsquo;s tiny SSD no matter how many copies I make; and because the image is Sysprepped it&rsquo;s all good for fuckign about with Active Directory.</p>
 
 
 		<footer>

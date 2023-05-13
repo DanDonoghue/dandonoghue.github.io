@@ -27,9 +27,9 @@
 <pre tabindex="0"><code>semanage fcontext -a -t samba_share_t &#39;/mnt/storage/My[\s]Files(/.*)?&#39;
 restorecon -R /mnt/storage/My\ Files
 </code></pre><p>Another useful rule is for the custom home-dir location. Say home directories are actually stored at <code>/mnt/storage/home</code>, you can run the following to get the context of this directory to persist.</p>
-<pre tabindex="0"><code>semanage fcontext -a -t home_root_t &#39;/mnt/storage/home&#39;
-semanage fcontext -a -t user_home_t &#39;/mnt/storage/home/(.*)?&#39;
-</code></pre>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>semanage fcontext -a -t home_root_t <span style="color:#ba2121">&#39;/mnt/storage/home&#39;</span>
+</span></span><span style="display:flex;"><span>semanage fcontext -a -t user_home_t <span style="color:#ba2121">&#39;/mnt/storage/home/(.*)?&#39;</span></span></span></code></pre></div>
+
 
 		<footer>
 			<ul>

@@ -19,7 +19,7 @@ restorecon -R /mnt/storage/My\ Files
 
 Another useful rule is for the custom home-dir location. Say home directories are actually stored at `/mnt/storage/home`, you can run the following to get the context of this directory to persist.
 
-```
+{{< highlight bash >}}
 semanage fcontext -a -t home_root_t '/mnt/storage/home'
 semanage fcontext -a -t user_home_t '/mnt/storage/home/(.*)?'
-```
+{{< / highlight >}}

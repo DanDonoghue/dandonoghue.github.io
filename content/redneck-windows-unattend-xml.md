@@ -14,7 +14,7 @@ While playing around, I wanted to test out a few different ways of using unatten
 
 Now, finding out where that XML went was a bit of a pain because Google would come up with millions of results about using it with `Sysprep.exe` or `setup.exe` or with MDT. Eventually I found a post that said that it gets saved to `\Windows\Panther\unattend.xml`. Finally, so I came up with this simple file that'll set the keyboard to the good old English UK layout, set the Administrator password to `Pa$$w0rd`, and auto-logon a couple of times to save having to login and watch for hours while Windows sets up the new user profile.
 
-```
+{{< highlight xml >}}
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
     <settings pass="windowsPE">
@@ -69,6 +69,6 @@ Now, finding out where that XML went was a bit of a pain because Google would co
     <cpi:offlineImage cpi:source="wim:c:/users/dan/documents/install.wim#Windows 11 Pro" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>
 
-```
+{{< / highlight >}}
 
 Now I can spin up a fresh copy of Windows in a couple of minutes, while only taking up ~12GB of my Surface Pro 5's tiny SSD no matter how many copies I make; and because the image is Sysprepped it's all good for fuckign about with Active Directory.
