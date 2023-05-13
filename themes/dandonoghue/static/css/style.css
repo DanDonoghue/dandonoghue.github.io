@@ -181,3 +181,11 @@ body > p > img {
 	text-align: center;
 	max-width: 100%;
 }
+th {
+	text-align: left;
+}
+table{
+	margin-left: auto;
+	margin-right: auto;
+	border-left: .4em solid #ccc;
+}
