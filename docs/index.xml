@@ -7,6 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Redneck Windows Unattend.xml</title>
+      <link>http://dan.donoghue.eu/redneck-windows-unattend-xml/</link>
+      <pubDate>Fri, 12 May 2023 23:12:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/redneck-windows-unattend-xml/</guid>
+      <description>So I wanted a base VHD boot image for my laptop so I can quickly create a new Windows installation without having to go through the tedium of running a bunch of WIM commands. The basic idea was to create one base image setup with drivers and updates, then Sysprep that image, and then I can create a new differencing VHD backed by that base image.
+The only downside was that the Windows Out-of-box-&amp;ldquo;experience&amp;rdquo; (OOBE) slowed the whole process down by asking asinine questions about privacy and stuff.</description>
+    </item>
+    
+    <item>
       <title>DHCP Option 121 Classless Static Route values</title>
       <link>http://dan.donoghue.eu/generating-option121-classless-static-route/</link>
       <pubDate>Fri, 12 May 2023 21:45:00 +0000</pubDate>
