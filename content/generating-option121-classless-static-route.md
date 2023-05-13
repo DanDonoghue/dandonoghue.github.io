@@ -1,7 +1,7 @@
 +++
-title = "Generating Option 121 Classless Static Route options for DHCP"
+title = "DHCP Option 121 Classless Static Route values"
 date = "2023-05-12T21:45:00Z"
-description = "How to work out what value to provide for O-121 to provide routes to clients"
+description = "How to work out what value to provide for O-121 to give routes to clients"
 +++
 
 Option 121, while incredibly usefull, sure is a fucking pig to use. The option tends to be specified using hexadecimal values of shortened IPv4 network addresses prepended with the CIDR notiation of the mask also in hex. This leads to something like `option 121 hex 180a.0100.0a00.1efe` in Cisco-ish. Wtf does that mean??

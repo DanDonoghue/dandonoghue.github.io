@@ -189,3 +189,18 @@ table{
 	margin-right: auto;
 	border-left: .4em solid #ccc;
 }
+body > header:first-child > a > img {
+	width: 10em;
+	max-width: 1536px;
+	margin: 5em auto 0 auto;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	display: block;
+}
+body > header:first-child > p {
+	text-align: center;
+	margin: 1em 2em 1em 2em;
+}
+body > header > p:nth-child(2) {
+	font-size: 2em;
+}
