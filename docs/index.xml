@@ -7,6 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Generating Option 121 Classless Static Route options for DHCP</title>
+      <link>http://dan.donoghue.eu/generating-option121-classless-static-route/</link>
+      <pubDate>Fri, 12 May 2023 21:45:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/generating-option121-classless-static-route/</guid>
+      <description>Option 121, while incredibly usefull, sure is a fucking pig to use. The option tends to be specified using hexadecimal values of shortened IPv4 network addresses prepended with the CIDR notiation of the mask also in hex. This leads to something like option 121 hex 180a.0100.0a00.1efe in Cisco-ish. Wtf does that mean??
+What is O-121 For those who don&amp;rsquo;t know, DHCP O-121 is another way to provide routes to clients other than setting the default-gateway option.</description>
+    </item>
+    
+    <item>
       <title>LSI2008 SAS Controller on EL9</title>
       <link>http://dan.donoghue.eu/lsi2008-on-el9/</link>
       <pubDate>Sun, 09 Apr 2023 17:41:00 +0000</pubDate>
