@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+		<title>PCIe Passthrough on Fedora 38</title>
+	</head>
+	<body>
+
+<header>
+	<a href="/">
+		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
+	</a>
+	<p>Dan Donoghue</p>
+</header>
+<h1><strong>PCIe Passthrough on Fedora 38</strong></h1>
+
+
+	<nav id="TableOfContents"></nav>
+
+
+<p>This is a lot simpler these days with modern-ish cards and a modern-ish OS because nVidia&rsquo;s lifted their wanky restrictions in their drivers. Unfortunately they haven&rsquo;t backported this change for cards from the Windows XP era which kind of sucks but fair enough, it is proper ancient.</p>
+<p>For a single GPU passed through to one Windows XP virtual machine, I just had to add a &ldquo;PCI Host Device&rdquo; in virt-manager.. typically two actually, one for the GPU function 0, and one for the GPU&rsquo;s HDMI audio function 1. Once that&rsquo;s done, change the <code>Video</code> model to <code>none</code> and edit the VM&rsquo;s XML to look like the following.</p>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#008000;font-weight:bold">&lt;domain</span> <span style="color:#7d9029">xmlns:qemu=</span><span style="color:#ba2121">&#34;http://libvirt.org/schemas/domain/qemu/1.0&#34;</span> <span style="color:#7d9029">type=</span><span style="color:#ba2121">&#34;kvm&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;features&gt;</span>
+</span></span><span style="display:flex;"><span>        ...
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;hyperv</span> <span style="color:#7d9029">mode=</span><span style="color:#ba2121">&#34;custom&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            ...
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;vendor_id</span> <span style="color:#7d9029">state=</span><span style="color:#ba2121">&#34;on&#34;</span> <span style="color:#7d9029">value=</span><span style="color:#ba2121">&#34;1234567890ab&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/hyperv&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;kvm&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;hidden</span> <span style="color:#7d9029">state=</span><span style="color:#ba2121">&#34;on&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/kvm&gt;</span>
+</span></span><span style="display:flex;"><span>        ...
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;/features&gt;</span>
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;qemu:override&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;qemu:device</span> <span style="color:#7d9029">alias=</span><span style="color:#ba2121">&#34;hostdev0&#34;</span><span style="color:#008000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;qemu:frontend&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#008000;font-weight:bold">&lt;qemu:property</span> <span style="color:#7d9029">name=</span><span style="color:#ba2121">&#34;x-vga&#34;</span> <span style="color:#7d9029">type=</span><span style="color:#ba2121">&#34;bool&#34;</span> <span style="color:#7d9029">value=</span><span style="color:#ba2121">&#34;true&#34;</span><span style="color:#008000;font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#008000;font-weight:bold">&lt;/qemu:frontend&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#008000;font-weight:bold">&lt;/qemu:device&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000;font-weight:bold">&lt;/qemu:override&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#008000;font-weight:bold">&lt;/domain&gt;</span></span></span></code></pre></div>
+<p>This XML will make KVM hide that it&rsquo;s a VM just enough for the nVidia driver to not throw a hissy. This is enough for passing through a 2nd GPU to a single VM, but I want more. I want to be able to play classic LAN multiplayer games on two VMs because I forgot how much effort it is running Windows XP on a physical computer. With VMs, I can use backing disk images to revert any changes so if I install something that breaks the OS it&rsquo;s only a couple commands to get something usable back.</p>
+<p>Now, the hard part was IOMMU grouping. For some reason, the 2nd GPU was being put into a group with a bunch of other random shit that made it refuse to pass through. This took a little bit of effort to sort out, with the help of <a href="https://github.com/some-natalie/fedora-acs-override">this repo</a>. Follow the readme instructions, I opted to download the prebuild kernel (hint: you gotta be logged in to GitHub to download the build artefacts). Obviously, this work around will compromise stability and security and all that jizz, but this is just a fuck around thing to play a couple old games.</p>
+<p>Once the patched kernel&rsquo;s installed, if you reboot and <strong>highlight</strong> the boot option with <code>acs</code> in the kernel version and then press <strong>e</strong> to edit it and add <code>pcie_acs_override=downstream,multifunction</code> then with any luck when you boot you&rsquo;re 2nd graphics card will be in it&rsquo;s own IOMMU group and be available for passthrough. If you want this option to be permanent then add it to <code>/etc/default/grub</code> otherwise you&rsquo;ll have to edit the boot commands every time.</p>
+<p>I have 3x graphics cards installed on this system, a GTX 1060 6GB, a GT 710, and a 9500GT. The GT 710 ran solid with no issues at all, but the 9500GT would occasionally hang the system is you rebooted the VM. I could do with replacing it with something newer but it&rsquo;s perfectly capable of running the kind of games I&rsquo;ll be playing, plus it&rsquo;s a single slot GPU that fits in my bottom x16 slot.</p>
+<p>Here&rsquo;s a video of how it looks at the end of it all</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/sbxhLOQTu_k" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+
+		<footer>
+			<ul>
+				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
+				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
+				<li><a href="/hire-me">Hire Me</a></li>
+			</ul>
+		</footer>
+	</body>
+</html>
+

@@ -7,6 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>PCIe Passthrough on Fedora 38</title>
+      <link>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</link>
+      <pubDate>Sat, 20 May 2023 10:00:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</guid>
+      <description>This is a lot simpler these days with modern-ish cards and a modern-ish OS because nVidia&amp;rsquo;s lifted their wanky restrictions in their drivers. Unfortunately they haven&amp;rsquo;t backported this change for cards from the Windows XP era which kind of sucks but fair enough, it is proper ancient.
+For a single GPU passed through to one Windows XP virtual machine, I just had to add a &amp;ldquo;PCI Host Device&amp;rdquo; in virt-manager.. typically two actually, one for the GPU function 0, and one for the GPU&amp;rsquo;s HDMI audio function 1.</description>
+    </item>
+    
+    <item>
       <title>Redneck Windows Unattend.xml</title>
       <link>http://dan.donoghue.eu/redneck-windows-unattend-xml/</link>
       <pubDate>Fri, 12 May 2023 23:12:00 +0000</pubDate>
