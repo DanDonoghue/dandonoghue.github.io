@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+		<title>Deploying BGInfo with Intune</title>
+	</head>
+	<body>
+
+<header>
+	<a href="/">
+		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
+	</a>
+	<p>Dan Donoghue</p>
+</header>
+<h1><strong>Deploying BGInfo with Intune</strong></h1>
+
+
+	<nav id="TableOfContents"></nav>
+
+
+<p>This is purely robbed from this <a href="https://www.reddit.com/r/Intune/comments/rk9x8h/bginfo_for_intune_endpoint_manager/">Reddit post</a> with me un-fucking the formatting so it works.</p>
+<p>The basic instructions are to:</p>
+<ol>
+<li>Get BGInfo from <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/bginfo">Sysinternals</a></li>
+<li>Run BGInfo, create your template, and save it as <code>bginfo.bgi</code></li>
+<li>Get <code>IntuneWinAppUtil.exe</code> from this <a href="https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool">GitHub repo</a></li>
+<li>Package the scripts, template, and BGInfo</li>
+<li>Add the package to Intune, and deploy it</li>
+</ol>
+<h1 id="creating-the-intunewin-package">Creating the .intunewin package</h1>
+<p>You&rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as <code>install.ps1</code> and <code>uninstall.ps1</code> along with your <code>bginfo.bgi</code> templace and <code>BGInfo64.exe</code>. Since this is for labbing, I won&rsquo;t bother with signing or any of that stuff.</p>
+<script type="application/javascript" src="https://gist.github.com/DanDonoghue/56bc81798f97a8846c1ec9f7d911a4cc.js"></script>
+
+<p>The next step is to run <code>intunewinutil.exe -c SOURCE -s bginfo64.exe -o DESTINATION -q</code>. Once this is done, you&rsquo;ll have a <code>.intunewin</code> file you can upload as a Win32 application.</p>
+<h1 id="creating-the-app-in-intune">Creating the app in Intune</h1>
+<p>In this deployment I just used the <em>all-devices</em> deployment group, but you can target it at any group you want. I&rsquo;ve done this on my setup for the virtio-win driver MSI so that it only installs on machines with a quick <code>device.deviceManufacturer -eq &quot;QEMU&quot;</code> rule.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/BFyX8EyTPho" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install command:</td>
+<td><code>powershell -ex bypass -file install.ps1</code></td>
+</tr>
+<tr>
+<td>Uninstall command:</td>
+<td><code>powershell -ex bypass -file uninstall.ps1</code></td>
+</tr>
+<tr>
+<td>Detection folder:</td>
+<td><code>C:\Program Files\BGInfo</code></td>
+</tr>
+<tr>
+<td>Detection file:</td>
+<td><code>bginfo.bgi</code></td>
+</tr>
+</tbody>
+</table>
+
+
+		<footer>
+			<ul>
+				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
+				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
+				<li><a href="/hire-me">Hire Me</a></li>
+			</ul>
+		</footer>
+	</body>
+</html>
+

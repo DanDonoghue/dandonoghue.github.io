@@ -7,6 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Deploying BGInfo with Intune</title>
+      <link>http://dan.donoghue.eu/deploying-bginfo-with-intune/</link>
+      <pubDate>Sun, 18 Jun 2023 14:49:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/deploying-bginfo-with-intune/</guid>
+      <description>This is purely robbed from this Reddit post with me un-fucking the formatting so it works.
+The basic instructions are to:
+Get BGInfo from Sysinternals Run BGInfo, create your template, and save it as bginfo.bgi Get IntuneWinAppUtil.exe from this GitHub repo Package the scripts, template, and BGInfo Add the package to Intune, and deploy it Creating the .intunewin package You&amp;rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as install.</description>
+    </item>
+    
+    <item>
       <title>PCIe Passthrough on Fedora 38</title>
       <link>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</link>
       <pubDate>Sat, 20 May 2023 10:00:00 +0000</pubDate>
