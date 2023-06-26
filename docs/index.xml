@@ -7,6 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language><atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Managing Firefox with Intune</title>
+      <link>http://dan.donoghue.eu/managing-firefox-with-intune/</link>
+      <pubDate>Mon, 26 Jun 2023 19:00:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/managing-firefox-with-intune/</guid>
+      <description>Import ADMX Files You&amp;rsquo;ll need to download the latest policy_templates ZIP file from the release assets on this page. Extract these, then you need to upload them to Intune.
+You&amp;rsquo;ll need to go to Devices &amp;gt; Windows &amp;gt; Configuration Profiles and then choose Import ADMX from the top.
+From this page, choose Import. Intune will ask for an ADMX file and an ADML file. First, upload windows\mozilla.admx and windows\en-US\mozilla.adml from the extracted policies ZIP file.</description>
+    </item>
+    
+    <item>
       <title>Deploying BGInfo with Intune</title>
       <link>http://dan.donoghue.eu/deploying-bginfo-with-intune/</link>
       <pubDate>Sun, 18 Jun 2023 14:49:00 +0000</pubDate>
