@@ -29,6 +29,15 @@ Get BGInfo from Sysinternals Run BGInfo, create your template, and save it as bg
     </item>
     
     <item>
+      <title>Bulk Updating Usage Location in AzureAD</title>
+      <link>http://dan.donoghue.eu/updating-usage-location-azuread/</link>
+      <pubDate>Fri, 16 Jun 2023 14:28:00 +0000</pubDate>
+      
+      <guid>http://dan.donoghue.eu/updating-usage-location-azuread/</guid>
+      <description>Country codes are ISO 3166</description>
+    </item>
+    
+    <item>
       <title>PCIe Passthrough on Fedora 38</title>
       <link>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</link>
       <pubDate>Sat, 20 May 2023 10:00:00 +0000</pubDate>
