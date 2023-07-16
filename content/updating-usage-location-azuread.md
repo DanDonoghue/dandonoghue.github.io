@@ -1,6 +1,6 @@
 +++
 title = "Bulk Updating Usage Location in AzureAD"
-date = "2023-06-16T14:28:00Z"
+date = "2023-07-16T14:28:00Z"
 description = "Demo users get created as Americans. I wanted to set them up as good old proper British users."
 +++
 
