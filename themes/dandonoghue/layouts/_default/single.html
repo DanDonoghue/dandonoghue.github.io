@@ -1,10 +1,6 @@
 {{ partial "header" . }}
 
 <header>
-	<a href="/">
-		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
-	</a>
-	<p>Dan Donoghue</p>
 </header>
 <h1><strong>{{ .Title }}</strong></h1>
 {{ if .Params.abstract }}<p>{{ .Params.abstract | markdownify }}</p>{{ end }}

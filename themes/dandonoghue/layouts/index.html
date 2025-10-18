@@ -1,23 +1,10 @@
 {{ partial "header" . }}
-<header>
-	<a href="/">
-		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
-	</a>
-	<p>Dan Donoghue</p>
-	<p>
-		You can find me on 
-		<a href="https://github.com/dandonoghue">GitHub</a>, 
-		<a href="https://www.linkedin.com/in/dan-donoghue-91349598/">LinkedIn</a>, and 
-		<a href="https://www.facebook.com/daniel.donoghue/">Facebook</a>
-	</p>
-	<p>
-		I'm just some guy from Cornwall who buggers around with computers, rides motorbikes, watches film and TV, and whatever else I feel like doing.
-	</p>
-</header>
+<header></header>
 {{ range where .Data.Pages.ByDate.Reverse ".Params.hidefromhome" "==" nil }}
 <div>
-	<h1><a href="{{ .RelPermalink }}">{{.Title}}</a></h1>
-	<p>{{ if .Description }}{{ .Description }}{{ else }}{{ .Summary }}{{ end }}</p>
+    <a href="{{ .RelPermalink }}">{{.Title}}</a>
+    <p>
+        {{ if .Description }}{{ .Description }}{{ else }}{{ .Summary }}{{ end }}
+    </p>
 </div>
-{{ end }}
-{{ partial "footer" . }}
+{{ end }} {{ partial "footer" . }}

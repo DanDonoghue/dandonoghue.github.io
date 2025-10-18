@@ -5,6 +5,9 @@
     <loc>http://dan.donoghue.eu/updating-usage-location-azuread/</loc>
     <lastmod>2023-07-16T14:28:00+00:00</lastmod>
   </url><url>
+    <loc>http://dan.donoghue.eu/</loc>
+    <lastmod>2023-07-16T14:28:00+00:00</lastmod>
+  </url><url>
     <loc>http://dan.donoghue.eu/managing-firefox-with-intune/</loc>
     <lastmod>2023-06-26T19:00:00+00:00</lastmod>
   </url><url>
@@ -23,7 +26,7 @@
     <loc>http://dan.donoghue.eu/lsi2008-on-el9/</loc>
     <lastmod>2023-04-09T17:41:00+00:00</lastmod>
   </url><url>
-    <loc>http://dan.donoghue.eu/hire-me/</loc>
+    <loc>http://dan.donoghue.eu/about-me/</loc>
     <lastmod>2017-04-27T23:37:00+00:00</lastmod>
   </url><url>
     <loc>http://dan.donoghue.eu/aria2-web-on-el7/</loc>
@@ -51,8 +54,6 @@
     <lastmod>2016-04-15T14:03:00+00:00</lastmod>
   </url><url>
     <loc>http://dan.donoghue.eu/categories/</loc>
-  </url><url>
-    <loc>http://dan.donoghue.eu/</loc>
   </url><url>
     <loc>http://dan.donoghue.eu/tags/</loc>
   </url>

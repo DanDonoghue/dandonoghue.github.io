@@ -1,18 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="/css/style.css" />
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<title>Deploying BGInfo with Intune</title>
-	</head>
-	<body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=320px, height=240px, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="/css/style.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Lato"
+            rel="stylesheet"
+        />
+        <title>Deploying BGInfo with Intune</title>
+    </head>
+    <body>
+        <h1>
+            <a href="/">Home</a>
+        </h1>
+        <hr />
+        <img src="/images/ie_banner.gif" class="banner" />
+        <img src="/images/msn_1.gif" class="banner" />
+        <hr />
+
 
 <header>
-	<a href="/">
-		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
-	</a>
-	<p>Dan Donoghue</p>
 </header>
 <h1><strong>Deploying BGInfo with Intune</strong></h1>
 
@@ -31,50 +39,61 @@
 </ol>
 <h1 id="creating-the-intunewin-package">Creating the .intunewin package</h1>
 <p>You&rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as <code>install.ps1</code> and <code>uninstall.ps1</code> along with your <code>bginfo.bgi</code> templace and <code>BGInfo64.exe</code>. Since this is for labbing, I won&rsquo;t bother with signing or any of that stuff.</p>
-<script type="application/javascript" src="https://gist.github.com/DanDonoghue/56bc81798f97a8846c1ec9f7d911a4cc.js"></script>
+<script src="https://gist.github.com/DanDonoghue/56bc81798f97a8846c1ec9f7d911a4cc.js"></script>
 
 <p>The next step is to run <code>intunewinutil.exe -c SOURCE -s bginfo64.exe -o DESTINATION -q</code>. Once this is done, you&rsquo;ll have a <code>.intunewin</code> file you can upload as a Win32 application.</p>
 <h1 id="creating-the-app-in-intune">Creating the app in Intune</h1>
 <p>In this deployment I just used the <em>all-devices</em> deployment group, but you can target it at any group you want. I&rsquo;ve done this on my setup for the virtio-win driver MSI so that it only installs on machines with a quick <code>device.deviceManufacturer -eq &quot;QEMU&quot;</code> rule.</p>
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="https://www.youtube.com/embed/BFyX8EyTPho" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/BFyX8EyTPho?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Install command:</td>
-<td><code>powershell -ex bypass -file install.ps1</code></td>
-</tr>
-<tr>
-<td>Uninstall command:</td>
-<td><code>powershell -ex bypass -file uninstall.ps1</code></td>
-</tr>
-<tr>
-<td>Detection folder:</td>
-<td><code>C:\Program Files\BGInfo</code></td>
-</tr>
-<tr>
-<td>Detection file:</td>
-<td><code>bginfo.bgi</code></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Install command:</td>
+          <td><code>powershell -ex bypass -file install.ps1</code></td>
+      </tr>
+      <tr>
+          <td>Uninstall command:</td>
+          <td><code>powershell -ex bypass -file uninstall.ps1</code></td>
+      </tr>
+      <tr>
+          <td>Detection folder:</td>
+          <td><code>C:\Program Files\BGInfo</code></td>
+      </tr>
+      <tr>
+          <td>Detection file:</td>
+          <td><code>bginfo.bgi</code></td>
+      </tr>
+  </tbody>
 </table>
 
 
 		<footer>
+		    <hr />
+				<img src="/images/msn_2.gif" class="banner" />
+			<hr />
 			<ul>
 				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
 				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
-				<li><a href="/hire-me">Hire Me</a></li>
+				<li><a href="/about-me">About me</a></li>
 			</ul>
+			<hr />
+			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/internet-explorer-2000.gif" />
+			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/quicktime-4-0-2000.gif" />
+			<img src="/images/apache.gif" />
+			<img src="/images/html_4.png" />
+			<img src="/images/firefox.png" />
+			<hr />
+			<p>&COPY; 1999</p>
 		</footer>
 	</body>
 </html>

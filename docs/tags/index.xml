@@ -4,7 +4,8 @@
     <title>Tags on Dan Donoghue</title>
     <link>http://dan.donoghue.eu/tags/</link>
     <description>Recent content in Tags on Dan Donoghue</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language><atom:link href="http://dan.donoghue.eu/tags/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <atom:link href="http://dan.donoghue.eu/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

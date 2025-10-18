@@ -1,18 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="/css/style.css" />
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<title>What&#39;s the deal with pings?</title>
-	</head>
-	<body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=320px, height=240px, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="/css/style.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Lato"
+            rel="stylesheet"
+        />
+        <title>What&#39;s the deal with pings?</title>
+    </head>
+    <body>
+        <h1>
+            <a href="/">Home</a>
+        </h1>
+        <hr />
+        <img src="/images/ie_banner.gif" class="banner" />
+        <img src="/images/msn_1.gif" class="banner" />
+        <hr />
+
 
 <header>
-	<a href="/">
-		<img src="/dan.jpg" alt="Picture of Dan Donoghue" />
-	</a>
-	<p>Dan Donoghue</p>
 </header>
 <h1><strong>What&#39;s the deal with pings?</strong></h1>
 
@@ -20,7 +28,7 @@
 	<nav id="TableOfContents"></nav>
 
 
-<p>Throughout the years I&rsquo;ve been told to turn off ICMP Echo Request (<code>ICMP Type 8</code>) and ICMP Echo Reply (<code>ICMP Type 0</code>), commonly referred to as &ldquo;Ping&rdquo;. Some of these people have been people who <em>should</em> know about this kind of thing, like University teachers and people who work in Network Administration. Their reason: &ldquo;security&rdquo;. I say: &ldquo;bollocks&rdquo;.</p>
+<p>Throughout the years I&rsquo;ve been told to turn off ICMP Echo Request (<code>ICMP Type 8</code>) and ICMP Echo Reply (<code>ICMP Type 0</code>), commonly referred to as &ldquo;Ping&rdquo;. Some of these people have been people who <em>should</em> know about this kind of thing like people who work in Network Administration. Their reason: &ldquo;security&rdquo;. I say: &ldquo;bollocks&rdquo;.</p>
 <p>Using the old &ldquo;security&rdquo; excuse is bad enough, because as soon as you mention security to someone who doesn&rsquo;t actively keep up to date with current and past attacks they tend to assume you do. This flaw should usually be circumvented by referencing actual attack techniques that exploit the conditions you want to change, but at no point throughout the years has this been done by anyone whose told me to turn off ICMP Echo. Because of this, I decided to research <strong>why</strong> someone should turn off the ICMP type, and to be honest I was underwhelmed by the reasons.</p>
 <h1 id="icmp-echo-can-be-used-to-determine-if-a-host-is-up">ICMP Echo can be used to determine if a host is up</h1>
 <p>Apparently (<a href="http://www.linuxhowtos.org/Security/disable_ping.htm">1</a>), being able to determine if a host is up or not is bad. The typical reasoning for this is that if someone can tell if a host is up, attackers can use this information towards their reconnaissance against a target. What this reasoning lacks is the fact that you can determine this information without Echos. You can see this by looking at the way <a href="https://nmap.org/">Nmap</a> works. Usually (non-stealth) Nmap fires off an ICMP Echo Request to the host you&rsquo;re scanning, and uses the response to determine if the host is up. Fair enough.</p>
@@ -38,11 +46,22 @@
 
 
 		<footer>
+		    <hr />
+				<img src="/images/msn_2.gif" class="banner" />
+			<hr />
 			<ul>
 				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
 				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
-				<li><a href="/hire-me">Hire Me</a></li>
+				<li><a href="/about-me">About me</a></li>
 			</ul>
+			<hr />
+			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/internet-explorer-2000.gif" />
+			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/quicktime-4-0-2000.gif" />
+			<img src="/images/apache.gif" />
+			<img src="/images/html_4.png" />
+			<img src="/images/firefox.png" />
+			<hr />
+			<p>&COPY; 1999</p>
 		</footer>
 	</body>
 </html>
