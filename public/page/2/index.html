@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+	<meta name="generator" content="Hugo 0.152.2"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1>the website of dan donoghue</h1>
+</header>
+
+  </header>
+  <main>
+    
+  <p>just some guy who does computer stuff, mainly programming and sysadmin</p>
+
+  
+  
+  
+    <section>
+      <h1><span>Saturday, 07/05/2016 01:47 UTC</span><a href="/posts/wrong-destination/">wrong destinations are the way to get there</a></h1>
+      <p>This evening I was just lounging around thinking about BGP, as you do, and reminded myself about an interesting quirk in IP.</p>
+<h1 id="whats-bgp-got-to-do-with-it">What&rsquo;s BGP got to do with it?</h1>
+<p>The way I was taught BGP at University emphasised using Loopback interfaces to move the single-point-of-failure you&rsquo;d get physical interfaces, to a less-error prone virtual interface. In a basic two router lab setup with loopbacks implemented on both routers, this makes the network look something like the diagram below.</p>
+    </section>
+  
+    <section>
+      <h1><span>Monday, 02/05/2016 05:37 UTC</span><a href="/posts/setting-selinux-contexts-the-proper-way/">setting selinux contexts the proper way</a></h1>
+      <p>Almost every mention of SELinux Contexts online references the use of <code>chcon(1)</code> for setting contexts on file and directories. This is a pretty shit way of setting contexts, since these changes don&rsquo;t stay when the file system is relabeled, and with <code>chcon(1)</code> the contexts need to be manually set again after an OS reinstallation.</p>
+<p>The proper way to set contexts is to use <code>semanage(8)</code>, which appends a new line with the rule to <code>/etc/selinux/targeted/contexts/files/file_contexts.local</code>. Real useful, since the relabelling of a file-system will follow whatever rules are specified within this file, and it&rsquo;s far easier to copy the <code>file_contexts.local</code> file than it would be to manually run <code>chcon(1)</code> after a relabel/reinstallation.</p>
+    </section>
+  
+    <section>
+      <h1><span>Monday, 25/04/2016 09:49 UTC</span><a href="/posts/option-121-my-favourite-option/">option 121: my favourite option</a></h1>
+      <p>I&rsquo;ll start this post off with this: don&rsquo;t judge my skills on how my home network is setup. I use this setup to test out and learn about different techniques, some good, some bad. I would never setup a client&rsquo;s network the way my home network is, but I wouldn&rsquo;t know the best way to do something without trying the wrong ways first.</p>
+<p>As part of my server reinstallation, I&rsquo;ve been messing about with the routing on my network. Previously, all routing for the LAN was handled by the server itself using the routing features in the Linux kernel. This brought with it several performance issues, mainly when the server was under load the latency of all traffic apart from subnet-local ended up going to shit. This time I decided to use my Cisco 1841 as the default gateway of client-site subnets, reducing the hop count to the demarc by one.</p>
+    </section>
+  
+    <section>
+      <h1><span>Saturday, 16/04/2016 16:43 UTC</span><a href="/posts/building-deluge-on-centos-7/">building deluge on centos 7</a></h1>
+      <p>Since the <code>deluge</code> and <code>deluge-web</code> packages are omitted from the CentOS/RHEL and EPEL repositories for EL7, and I wouldn&rsquo;t trust some unmaintained 3rd-party repo, I decided to build them from source. The instructions on the <a href="http://dev.deluge-torrent.org/wiki/Installing/Source">Deluge website</a> fail to mention anything about what&rsquo;s needed for CentOS/RHEL distributions so I guess I&rsquo;ll write up what&rsquo;s needed here.</p>
+<h1 id="download-the-source">Download the source</h1>
+<p>Get the latest version of the source from the Deluge project&rsquo;s <a href="http://download.deluge-torrent.org/source/?C=M;O=D">Source Mirror</a>. Then extract the source with <code>tar -xf</code> .</p>
+    </section>
+  
+    <section>
+      <h1><span>Friday, 15/04/2016 14:03 UTC</span><a href="/posts/bridging-router-interfaces-in-ios/">bridging router interfaces in ios</a></h1>
+      <p>I have a strange network setup in my house with many subnets all over the place. To save from either putting a switch downstairs, or another cable run between downstairs and the main switches upstairs, I ended up just connecting the front-room TV to one of the WAN FastEthernet interfaces and setting up an internally-routed /24 for it. This setup gave the TV access to the Internet, but prevents it from reaching my Plex DLNA server, meaning no TV or films.</p>
+    </section>
+  
+  
+    <ul class="pagination pagination-default">
+      <li class="page-item">
+        <a href="/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Next" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Last" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul>
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

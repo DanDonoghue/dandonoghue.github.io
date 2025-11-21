@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Managing Firefox with Intune | the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/managing-firefox-with-intune/">managing firefox with intune</a></h1>
+	<p>Monday, 26/06/2023 19:00 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <h2 id="import-admx-files">Import ADMX Files</h2>
+<p>You&rsquo;ll need to download the latest policy_templates ZIP file from the release assets on <a href="https://github.com/mozilla/policy-templates/releases">this page</a>. Extract these, then you need to upload them to Intune.</p>
+<p>You&rsquo;ll need to go to Devices &gt; Windows &gt; <a href="https://endpoint.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesWindowsMenu/~/configProfiles">Configuration Profiles</a> and then choose <strong>Import ADMX</strong> from the top.</p>
+<p>From this page, choose <strong>Import</strong>. Intune will ask for an ADMX file and an ADML file. First, upload <strong>windows\mozilla.admx</strong> and <strong>windows\en-US\mozilla.adml</strong> from the extracted policies ZIP file.</p>
+<p><img src="/images/managing_firefox_with_intune/intune_admx_import.png" alt="Intune ADMX upload for mozilla.admx"></p>
+<p>Wait for this to finish uploading and importing, then do the same for <strong>windows\firefox.admx</strong> with <strong>windows\en-US\firefox.adml</strong>. Once completed, it should look like below. Note the time difference in the <strong>created</strong> field; you have to wait for the mozilla template to process before it&rsquo;ll let you upload the firefox template.</p>
+<p><img src="/images/managing_firefox_with_intune/intune_admx_post_import.png" alt="Intune with Imported ADMX templates for mozilla.admx and firefox.admx"></p>
+<p>Once you&rsquo;re at this stage, you&rsquo;re ready to setup a configuration profile</p>
+<h2 id="create-configuration-profile">Create Configuration Profile</h2>
+<p>Go to Devices &gt; Windows &gt; Configuration profiles, once there click <strong>Create profile</strong>. In the pop-up, choose <strong>Windows 10 and later</strong> as the platform, and <strong>Templates</strong> for profile type. In the list of templates, you&rsquo;re looking to create a profile from <strong>Imported Administrative templates</strong>.</p>
+<p>On the Configuration settings panel, depending on how you&rsquo;re going to deploy this profile you can either set things in the <strong>Computer Configuration</strong> or <strong>User Configuration</strong> settings. You can go through to set the configuration to how you want it, similar to any other GPO.</p>
+<p>One important one is the <strong>Windows SSO</strong> enablement, which lets Firefox automatically login to online services the same way Edge does without requiring the user to re-type their password.</p>
+<p>Here&rsquo;s my test configuration I have set up on my lab, which changes the homepage, disables private browsing, removes the pop-up for setting the default browser, removes the first run page, and also prevents the <a href="https://www.mozilla.org/en-US/privacy/firefox/">Firefox Privacy Notice</a> from displaying at first run.</p>
+<p><img src="/images/managing_firefox_with_intune/firefox_config_profile.png" alt="Firefox Configuration Profile in Intune"></p>
+<p>Removing the first-run privacy notice tab was the hardest part to understand. It&rsquo;s configured via the <strong>Mozilla\Firefox\Preferences</strong> option (not the one that says deprecated). This option takes settings as a JSON object similar to the one below.</p>
+<pre tabindex="0"><code>{
+    &#34;datareporting.policy.dataSubmissionPolicyBypassNotification&#34;: {
+    	&#34;Value&#34;: true,
+    	&#34;Status&#34;: &#34;default&#34;
+    }
+}
+</code></pre><p>The options for this are documented <a href="https://github.com/mozilla/policy-templates/tree/master#preferences">here</a>, albeit confusingly. The basic idea is that <strong>preferences.json</strong> is sent via policy and read from the registry, but why that isn&rsquo;t written like that is beyond me.</p>
+<p>It&rsquo;s basically a list of JSON objects stored in a keyed array, so you can push multiple preferences from this one policy option. The one below will disable the privacy notice and remove the warning when closing with multiple tabs open.</p>
+<pre tabindex="0"><code>{
+    &#34;datareporting.policy.dataSubmissionPolicyBypassNotification&#34;: {
+    	&#34;Value&#34;: true,
+    	&#34;Status&#34;: &#34;default&#34;
+    },
+    &#34;browser.tabs.warnOnClose&#34;: {
+        &#34;Value&#34;: false,
+        &#34;Status&#34;: &#34;default&#34;
+    }
+}
+</code></pre><p>Hopefully it&rsquo;s a little easier to understand than the Mozilla documentation was.</p>
+<p>Once you&rsquo;ve set everything you need to, just go through and assign it to whatever you want to assign it to. If all&rsquo;s gone well, you&rsquo;ll have Firefox running how you want it.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

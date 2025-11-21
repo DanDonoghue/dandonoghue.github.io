@@ -1,8 +1,5 @@
 +++
 title = "About me!"
-date = "2017-04-27T23:37:00Z"
-hidefromhome = true
-hidetoc = true
 +++
 
 # Transcripts

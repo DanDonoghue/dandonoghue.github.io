@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Deploying BGInfo with Intune | the website of dan donoghue</title>
+
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/deploying-bginfo-with-intune/">deploying bginfo with intune</a></h1>
+	<p>Sunday, 18/06/2023 14:49 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>This is purely robbed from this <a href="https://www.reddit.com/r/Intune/comments/rk9x8h/bginfo_for_intune_endpoint_manager/">Reddit post</a> with me un-fucking the formatting so it works.</p>
+<p>The basic instructions are to:</p>
+<ol>
+<li>Get BGInfo from <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/bginfo">Sysinternals</a></li>
+<li>Run BGInfo, create your template, and save it as <code>bginfo.bgi</code></li>
+<li>Get <code>IntuneWinAppUtil.exe</code> from this <a href="https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool">GitHub repo</a></li>
+<li>Package the scripts, template, and BGInfo</li>
+<li>Add the package to Intune, and deploy it</li>
+</ol>
+<h1 id="creating-the-intunewin-package">Creating the .intunewin package</h1>
+<p>You&rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as <code>install.ps1</code> and <code>uninstall.ps1</code> along with your <code>bginfo.bgi</code> templace and <code>BGInfo64.exe</code>. Since this is for labbing, I won&rsquo;t bother with signing or any of that stuff.</p>
+<script src="https://gist.github.com/DanDonoghue/56bc81798f97a8846c1ec9f7d911a4cc.js"></script>
+
+<p>The next step is to run <code>intunewinutil.exe -c SOURCE -s bginfo64.exe -o DESTINATION -q</code>. Once this is done, you&rsquo;ll have a <code>.intunewin</code> file you can upload as a Win32 application.</p>
+<h1 id="creating-the-app-in-intune">Creating the app in Intune</h1>
+<p>In this deployment I just used the <em>all-devices</em> deployment group, but you can target it at any group you want. I&rsquo;ve done this on my setup for the virtio-win driver MSI so that it only installs on machines with a quick <code>device.deviceManufacturer -eq &quot;QEMU&quot;</code> rule.</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/BFyX8EyTPho?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Install command:</td>
+          <td><code>powershell -ex bypass -file install.ps1</code></td>
+      </tr>
+      <tr>
+          <td>Uninstall command:</td>
+          <td><code>powershell -ex bypass -file uninstall.ps1</code></td>
+      </tr>
+      <tr>
+          <td>Detection folder:</td>
+          <td><code>C:\Program Files\BGInfo</code></td>
+      </tr>
+      <tr>
+          <td>Detection file:</td>
+          <td><code>bginfo.bgi</code></td>
+      </tr>
+  </tbody>
+</table>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

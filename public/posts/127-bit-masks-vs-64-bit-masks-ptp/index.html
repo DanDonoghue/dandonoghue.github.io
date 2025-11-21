@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>127-bit masks vs 64-bit masks on Point-to-Point links | the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/127-bit-masks-vs-64-bit-masks-ptp/">127-bit masks vs 64-bit masks on point-to-point links</a></h1>
+	<p>Sunday, 08/05/2016 15:47 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>I was looking through the usual subs on Reddit this morning and there was a post about things that scare people, and one of the comments was from someone who&rsquo;s &ldquo;scared of IPv6&rdquo;. Fair enough, hex does look intimidating at first, especially when you&rsquo;re only familiar with 32-bit dotted-decimal. Underneath this was a comment that said someting along the lines of &ldquo;you can tell how familiar someone is at IPv6 by whether they use /127 or /64 on their point-to-point links&rdquo;, which is a reference to <a href="https://tools.ietf.org/html/rfc6164">RFC6164</a> compared to the commonly spouted &ldquo;use /64s everywere&rdquo; nonsense suggested by a lot of IPv6 learning resources.</p>
+<p>This agreeable comment was then replied to by a third person, saying they use /64s on P2P links, and gave their reasons for doing so. I think their reasons are a load of horse shit, and so I&rsquo;m writing this post with my counterarguments for each of their reasons.</p>
+<h1 id="address-conservation-isnt-an-issue">Address conservation isn&rsquo;t an issue</h1>
+<p>Do you know who else thought address conservation wasn&rsquo;t an issue? Literally everyone towards the beginning of the IPv4 Internet. Say you&rsquo;re a SMB, assigned a <code>/56</code> from your ISP. That&rsquo;s 256x <code>/64</code>s, which seems like plenty now, but how about in 15 or 20 years? You can&rsquo;t know, because you don&rsquo;t know what know what direction technology will go in by then. It&rsquo;s better to setup something you <em>might</em> not need, than to implement a change later on.</p>
+<h1 id="127s-are-always-at-risk-of-vendor-incompatibility">/127s are always at risk of vendor incompatibility</h1>
+<p>Only if you don&rsquo;t update your gear. If you&rsquo;re one of those people, you&rsquo;re bad at your job and should refund your salary. If the vendor isn&rsquo;t implementing the standards properly, then you bang on to them until they do, or you drop them as a vendor. Simple as that.</p>
+<h1 id="127s--make-human-readability-very-difficult">/127s [&hellip;] make human readability very difficult</h1>
+<p>This one is just crap. It&rsquo;s fairly obvious that after <code>9</code><!-- raw HTML omitted -->16<!-- raw HTML omitted --> comes <code>A</code><!-- raw HTML omitted -->16<!-- raw HTML omitted -->, and that <code>A</code><!-- raw HTML omitted -->16<!-- raw HTML omitted --> is equal to <code>10</code><!-- raw HTML omitted -->10<!-- raw HTML omitted -->. All you have to do to tell if an address is the first address or last address in a subnet programatically is to modulo the last nibble by <code>2</code>. If the result is <code>0</code>, it&rsquo;s the first address. If the result is <code>1</code>, it&rsquo;s the last address.</p>
+<p>This is actually as easy for people in IPv6 as it is for <code>/31</code> addressing in IPv4, because you can tell the different between an even and an odd number right? There&rsquo;s only two addresses per subnet. If it&rsquo;s even, it&rsquo;s the first address, otherwise it&rsquo;s the last address.</p>
+<h1 id="neighbour-discovery-attacks-exist-for-64">Neighbour Discovery attacks exist for /64</h1>
+<p>This one doesn&rsquo;t really argue against <code>/127</code>s, but in my view argues for them. IPv6 Neighbour Discovery can be used for a DoS attack against a pair of nodes connected using P2P links with a <code>/64</code>. The commentator argues that you can configure routers to prevent this, but why bother with the extra effort? It&rsquo;s far quicker to just use a <code>/127</code> and be done, than to use a <code>/64</code> and then setup a fuck load of mitigations, especially since the attack vector for a <code>/64</code> is larger than that of <code>/127</code>s because of all the extra parts of IPv6 that run by default on a <code>/64</code> prefix.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

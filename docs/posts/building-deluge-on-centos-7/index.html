@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Building Deluge on CentOS 7 | the website of dan donoghue</title>
+
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/building-deluge-on-centos-7/">building deluge on centos 7</a></h1>
+	<p>Saturday, 16/04/2016 16:43 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>Since the <code>deluge</code> and <code>deluge-web</code> packages are omitted from the CentOS/RHEL and EPEL repositories for EL7, and I wouldn&rsquo;t trust some unmaintained 3rd-party repo, I decided to build them from source. The instructions on the <a href="http://dev.deluge-torrent.org/wiki/Installing/Source">Deluge website</a> fail to mention anything about what&rsquo;s needed for CentOS/RHEL distributions so I guess I&rsquo;ll write up what&rsquo;s needed here.</p>
+<h1 id="download-the-source">Download the source</h1>
+<p>Get the latest version of the source from the Deluge project&rsquo;s <a href="http://download.deluge-torrent.org/source/?C=M;O=D">Source Mirror</a>. Then extract the source with <code>tar -xf</code> .</p>
+<h1 id="install-the-dependencies">Install the dependencies</h1>
+<p>The dependencies for Deluge and Deluge-Web are stated on the project&rsquo;s website, although only the packages for Debian/Ubuntu are listed. Some of the dependencies are in the EPEL repo, so you&rsquo;ll have to run this command first if you haven&rsquo;t already enabled EPEL.</p>
+<pre tabindex="0"><code>$ sudo yum install epel-release
+</code></pre><p>Once the EPEL repo is enabled, run the following command to install the relevant dependencies.</p>
+<pre tabindex="0"><code>$ sudo yum install python python-twisted-core python-twisted-web pyOpenSSL \
+  python-setuptools gettext intltool pyxdg python-chardet python-GeoIP \
+  rb_libtorrent-python2 python-setproctitle python-pillow python-mako
+</code></pre><h1 id="build-and-install-deluge-and-deluge-web">Build and install Deluge and Deluge-Web</h1>
+<p>Change into the directory where you extracted the deluge source files, and run the following to build Deluge and Deluge-Web, and then install the application into the usuall locations.</p>
+<pre tabindex="0"><code>$ python setup.py build
+$ sudo python setup.py install
+</code></pre><h1 id="create-a-service-user">Create a service user</h1>
+<p>You shouldn&rsquo;t be running a service under a standard user account, so create a user for deluge to run as.</p>
+<pre tabindex="0"><code>$ sudo useradd -d /var/lib/deluge -c &#34;deluge daemon account&#34; -r -s /sbin/nologin -m deluge
+</code></pre><h1 id="install-the-systemd-service-files">Install the systemd service files</h1>
+<p>These are the .service files taken from the Fedora version of Deluge. Create the <code>deluge-daemon.service</code> and <code>deluge-web.service</code> files inside <code>/etc/systemd/system</code>. Once created, you can start and enable both services using the following commands.</p>
+<pre tabindex="0"><code>$ systemctl daemon-reload
+$ systemctl enable deluge-daemon-service
+$ systemctl enable deluge-web.service
+$ systemctl start deluge-daemon.service
+$ systemctl start deluge-web.service
+</code></pre><h2 id="deluge-daemonservice">deluge-daemon.service</h2>
+<pre tabindex="0"><code>[Unit]
+Description=Deluge Bittorrent Client Daemon 
+After=network.target
+
+[Service]
+User=deluge
+ExecStart=/usr/bin/deluged -d
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><h2 id="deluge-webservice">deluge-web.service</h2>
+<pre tabindex="0"><code>[Unit]
+Description=Deluge Bittorrent Client Web Interface
+After=network.target
+
+[Service]
+User=deluge
+ExecStart=/usr/bin/deluge --ui web
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

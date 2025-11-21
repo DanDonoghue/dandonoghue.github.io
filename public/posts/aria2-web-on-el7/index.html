@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Aria2 Web on EL7 | the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/aria2-web-on-el7/">aria2 web on el7</a></h1>
+	<p>Sunday, 22/05/2016 04:13 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p><a href="https://aria2.github.io/">Aria2</a> is a CLI download manager that can download files over several different protocols. I&rsquo;ve been meaning to set something like this up for ages, as it&rsquo;s better to download files on my server than to leave another machine turned on.</p>
+<h1 id="install-aria2-and-apaches-httpd">Install Aria2 and Apache&rsquo;s httpd</h1>
+<p>The following commands enable the EPEL repo, install <code>aria2</code> and <code>httpd</code>, and adds a firewall rule to allow HTTP traffic from the public zone. If you&rsquo;ve set up different zones (like I have), use the zone that you want to allow access from.</p>
+<pre tabindex="0"><code>sudo yum -y install epel-release
+sudo yum -y install aria2 httpd
+sudo firewall-cmd --zone=public --add-service=http
+sudo firewall-cmd --zone=public --add-service=http --permanent
+</code></pre><h1 id="configure-a-systemd-service-for-aria2">Configure a systemd service for Aria2</h1>
+<h2 id="create-a-service-user">Create a service user</h2>
+<p>To run Aria2 as a service, you need to give it a user account. This helps security-wise because you can tune what locations it can access using ACLs and such. The following command creates a service user, with the shell <code>/sbin/nologin</code>, and the home directory <code>/path/where/downloads/are/stored</code>.</p>
+<p>You should change the home directory to wherever you&rsquo;re storing downloaded files.</p>
+<pre tabindex="0"><code>sudo useradd -s /sbin/nologin -r aria2 -d /path/where/downloads/are/stored
+</code></pre><h2 id="write-the-systemd-service-file">Write the systemd <code>.service</code> file</h2>
+<p>Systemd service files are small configuration files that tell systemd how it should run something. The following code block is my service file, which I saved as <code>/etc/systemd/system/aria2.service</code>. The important lines are in the <code>Service</code> block, specifically the <code>User</code> and <code>WorkingDirectory</code> lines. You should update <code>User</code> to be the user you wish to run Aria2 as, and also update <code>WorkingDirectory</code> to point to the location where you want to store downloaded files.</p>
+<pre tabindex="0"><code>[Unit]
+Description=Aria2 Download Manager
+After=network.target
+
+[Service]
+User=aria2
+WorkingDirectory=/path/where/downloads/are/stored
+ExecStart=/bin/aria2c --enable-rpc --show-console-readout=false
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><h2 id="start-aria2">Start Aria2</h2>
+<p>Whenever you update systemd&rsquo;s <code>.service</code> files, you have to run a <code>daemon-reload</code>. If you want to have the service start automatically at it&rsquo;s default targets (<code>WantedBy=multi-user.target</code>) then you must <code>enable</code> it. To simply start the service right now, you use the <code>start</code> line. The following code block shows all three <code>systemctl</code> commands needed to get Aria2 running and to auto-start it at boot.</p>
+<pre tabindex="0"><code>sudo systemctl daemon-reload
+sudo systemctl enable aria2.service
+sudo systemctl start aria2.service
+</code></pre><h1 id="configure-apaches-httpd">Configure Apache&rsquo;s httpd</h1>
+<h2 id="webui-files">WebUI Files</h2>
+<p>Firstly, you need to make a directory in <code>/var/www</code> that will contain the Aria2 WebUI files.</p>
+<pre tabindex="0"><code>sudo mkdir /var/www/aria2
+</code></pre><p>Once this directory is made, download the <a href="https://github.com/ziahamza/webui-aria2">Aria2 WebUI</a> and place them into the newly created folder. Make sure that <code>index.html</code> is located at <code>/var/www/aria2/index.html</code>.</p>
+<h2 id="configuration-file">Configuration File</h2>
+<p>Httpd needs to be configured to proxy the <code>/jsonrpc</code> endpoint to the port that Aria2 listens on (default: <code>tcp/6800</code>). The following virtual-host configuration file covers the basics. Save this file as <code>/etc/httpd/conf.d/aria2.conf</code></p>
+<pre tabindex="0"><code>&lt;VirtualHost *:80&gt;
+	DocumentRoot /var/www/aria2
+	ProxyPass &#34;/jsonrpc&#34; &#34;http://localhost:6800/jsonrpc&#34;
+	ProxyPassReverse &#34;/jsonrpc&#34; &#34;http://localhost:6800/jsonrpc&#34;
+&lt;/VirtualHost&gt;
+</code></pre><h2 id="selinux-changes">Selinux changes</h2>
+<p>Because the reverse proxy is being used, httpd needs to be able to connect to network ports. This is blocked by default by <code>selinux</code>.</p>
+<pre tabindex="0"><code>sudo setsebool -P httpd_can_network_connect on
+</code></pre><h2 id="start-httpd">Start httpd</h2>
+<pre tabindex="0"><code>sudo systemctl enable httpd.service
+sudo systemctl start httpd.service
+</code></pre><h1 id="browse-to-the-webui">Browse to the WebUI</h1>
+<p>After the previous steps, you should have running Aria2 and httpd services. Opening <code>http://&lt;ip&gt;/</code> should show you the WebUI, which should be connected to Aria2 over the reverse proxy to Aria2&rsquo;s jsonrpc URI. If something doesn&rsquo;t work, check the logs of the <code>httpd</code> and <code>aria2</code> services.</p>
+<h1 id="checking-the-logs">Checking the logs</h1>
+<h2 id="apaches-httpd">Apache&rsquo;s httpd</h2>
+<p>Apache stores its logs in various different files instead of the <code>systemd</code> approach of using <code>journald</code>, so you&rsquo;ll have to check the files the old-school way with <code>tail</code>.</p>
+<pre tabindex="0"><code>sudo tail -f /var/log/httpd/error_log
+</code></pre><h2 id="aria2">Aria2</h2>
+<p>Because Aria2 is being run as a systemd service, its <code>stdout</code> is being redirected into <code>journald</code>. The easiest way to read these logs is with <code>journalctl</code>.</p>
+<pre tabindex="0"><code>sudo journalctl -lfu aria2
+</code></pre><p>You can also see a status for the service by using <code>systemctl status &lt;unit&gt;</code>, like so:</p>
+<pre tabindex="0"><code>sudo systemctl status aria2.service
+</code></pre>
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

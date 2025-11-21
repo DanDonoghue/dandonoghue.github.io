@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>DHCP Option 121 Classless Static Route values | the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/generating-option121-classless-static-route/">dhcp option 121 classless static route values</a></h1>
+	<p>Friday, 12/05/2023 21:45 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>Option 121, while incredibly usefull, sure is a fucking pig to use. The option tends to be specified using hexadecimal values of shortened IPv4 network addresses prepended with the CIDR notiation of the mask also in hex. This leads to something like <code>option 121 hex 180a.0100.0a00.1efe</code> in Cisco-ish. Wtf does that mean??</p>
+<h2 id="what-is-o-121">What is O-121</h2>
+<p>For those who don&rsquo;t know, DHCP O-121 is another way to provide routes to clients other than setting the <code>default-gateway</code> option. The main difference is that O-121 lets you send multiple CIDR routes allowing an automatic routing table like below. This can make routing to other local networks far more efficient than just routing the traffic through the default gateway, especially for networks like mine where the DGW is a piece of shit 1841 with 100Mbps NICs and my server has 4-8Gb of bandwidth to the LAN depending on what I&rsquo;m doing with it at the time. The obvious answer would be to use a L3 switch but I don&rsquo;t have one and DHCP options are free.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Route</th>
+          <th>NextHop</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0.0.0.0/0</td>
+          <td>192.168.0.1</td>
+      </tr>
+      <tr>
+          <td>172.16.0.0/24</td>
+          <td>192.168.0.100</td>
+      </tr>
+      <tr>
+          <td>172.16.21.6/32</td>
+          <td>192.168.0.200</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="how-the-value-works">How the value works</h2>
+<p>So how do we work out the option values for these routes? We have to convert everything to hex. Nibble-by-nibble. So for example the <code>172</code> and <code>16</code> ports of the network address have to be converted to hex as <code>ac</code> and <code>10</code>. The mask also needs converting, so a <code>24</code> bit mask is written as <code>18</code>. This gives us the most of what we need for writing out the <code>172.16.0.0/24</code> route but how? The format is <code>&lt;mask&gt;&lt;network&gt;&lt;gateway&gt;</code> so we start with <code>18</code> (\24 in hex), then add <code>ac</code> and <code>10</code> (172 and 16 in hex) after.</p>
+<p>Now we have <code>18ac10</code> which is our network address. In this notation, we only need the network-portion to be specified, hence this is all we need. If you wanted to specify a route to a host address, you&rsquo;ll obviously have to provide all 32 bits (ie. <code>20ac101506</code>) and prepend a 32-bit (<code>20</code>) mask value.</p>
+<p>If we wanted to have 2 layer-3 domains on one layer-2 segment simply adding <code>18ac10</code> now would let your clients talk to each other, if you were that way inclined (I am not).</p>
+<p>Next step, add the next hop address to our value. To do this, convert the address the same way as before. Using the example in the table above, we&rsquo;re using <code>192.168.0.100</code> for this network&rsquo;s gateway. This works out as <code>c0</code>, <code>a8</code>, <code>00</code>, and <code>64</code>. Combine everything and we get a value of <code>18ac10c0a80064</code>.</p>
+<p>This might have to be written slightly differently depending on which DHCP server you&rsquo;re using, for example some will use it as <code>18:ac:10:c0:a8:00:64</code> and others will use it as <code>0x18ac10c0a80064</code>. The Cisco engineers must&rsquo;ve been smoking something when they wrote their implementation because they take it as dotted-quads. I&rsquo;m sure they&rsquo;ll have a Cisco Certified Hexadecimal Dotting Professional certification somewhere in their programmes. Anyways, the trick for Cisco is to whack a <code>.</code> in after every 4th position, giving us <code>18ac.10c0.a800.64</code></p>
+<h2 id="script-to-generate-this-shit-on-its-own">Script to generate this shit on it&rsquo;s own</h2>
+<p>You can generate these values using the printf command, for example to generate a <code>/32</code> route to <code>176.16.21.6</code> via <code>192.168.0.200</code> you can run:</p>
+<pre tabindex="0"><code>$ printf &#34;%02x&#34; 32 172 16 21 6 192 168 0 200
+20ac101506c0a800c8
+</code></pre><p>With this, you can also create multiple routes. For everything in the table of networks above, this script will do:</p>
+<pre tabindex="0"><code>$ printf &#34;%02x&#34; 00 192 168 0 1 24 172 16 192 168 0 100 32 172 16 21 6 192 168 0 200 
+00c0a8000118ac10c0a8006420ac101506c0a800c8
+</code></pre><p>The script is the easiest way, by-far.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

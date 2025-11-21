@@ -1,150 +1,141 @@
-<!doctype html>
-<html>
-    <head>
-	<meta name="generator" content="Hugo 0.142.0">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=320px, height=240px, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" href="/css/style.css" />
-        <link
-            href="https://fonts.googleapis.com/css?family=Lato"
-            rel="stylesheet"
-        />
-        <title>Dan Donoghue</title>
-    </head>
-    <body>
-        <h1>
-            <a href="/">Home</a>
-        </h1>
-        <hr />
-        <img src="/images/ie_banner.gif" class="banner" />
-        <img src="/images/msn_1.gif" class="banner" />
-        <hr />
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+	<meta name="generator" content="Hugo 0.152.2">
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>the website of dan donoghue</title>
 
-<header></header>
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
 
-<div>
-    <a href="/updating-usage-location-azuread/">Bulk Updating Usage Location in AzureAD</a>
-    <p>
-        Demo users get created as Americans. I wanted to set them up as good old proper British users.
-    </p>
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1>the website of dan donoghue</h1>
+</header>
+
+  </header>
+  <main>
+    
+  <p>just some guy who does computer stuff, mainly programming and sysadmin</p>
+
+  
+  
+  
+    <section>
+      <h1><span>Sunday, 16/07/2023 14:28 UTC</span><a href="/posts/updating-usage-location-azuread/">bulk updating usage location in azuread</a></h1>
+      <p>Country codes are <a href="https://www.iban.com/country-codes">ISO 3166</a></p>
+<script src="https://gist.github.com/DanDonoghue/719a92c008a641ae9704ef7958670c5d.js"></script>
+    </section>
+  
+    <section>
+      <h1><span>Monday, 26/06/2023 19:00 UTC</span><a href="/posts/managing-firefox-with-intune/">managing firefox with intune</a></h1>
+      <h2 id="import-admx-files">Import ADMX Files</h2>
+<p>You&rsquo;ll need to download the latest policy_templates ZIP file from the release assets on <a href="https://github.com/mozilla/policy-templates/releases">this page</a>. Extract these, then you need to upload them to Intune.</p>
+<p>You&rsquo;ll need to go to Devices &gt; Windows &gt; <a href="https://endpoint.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesWindowsMenu/~/configProfiles">Configuration Profiles</a> and then choose <strong>Import ADMX</strong> from the top.</p>
+<p>From this page, choose <strong>Import</strong>. Intune will ask for an ADMX file and an ADML file. First, upload <strong>windows\mozilla.admx</strong> and <strong>windows\en-US\mozilla.adml</strong> from the extracted policies ZIP file.</p>
+    </section>
+  
+    <section>
+      <h1><span>Sunday, 18/06/2023 14:49 UTC</span><a href="/posts/deploying-bginfo-with-intune/">deploying bginfo with intune</a></h1>
+      <p>This is purely robbed from this <a href="https://www.reddit.com/r/Intune/comments/rk9x8h/bginfo_for_intune_endpoint_manager/">Reddit post</a> with me un-fucking the formatting so it works.</p>
+<p>The basic instructions are to:</p>
+<ol>
+<li>Get BGInfo from <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/bginfo">Sysinternals</a></li>
+<li>Run BGInfo, create your template, and save it as <code>bginfo.bgi</code></li>
+<li>Get <code>IntuneWinAppUtil.exe</code> from this <a href="https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool">GitHub repo</a></li>
+<li>Package the scripts, template, and BGInfo</li>
+<li>Add the package to Intune, and deploy it</li>
+</ol>
+<h1 id="creating-the-intunewin-package">Creating the .intunewin package</h1>
+<p>You&rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as <code>install.ps1</code> and <code>uninstall.ps1</code> along with your <code>bginfo.bgi</code> templace and <code>BGInfo64.exe</code>. Since this is for labbing, I won&rsquo;t bother with signing or any of that stuff.</p>
+    </section>
+  
+    <section>
+      <h1><span>Saturday, 20/05/2023 10:00 UTC</span><a href="/posts/pcie_passthrough_on_fedora38/">pcie passthrough on fedora 38</a></h1>
+      <p>This is a lot simpler these days with modern-ish cards and a modern-ish OS because nVidia&rsquo;s lifted their wanky restrictions in their drivers. Unfortunately they haven&rsquo;t backported this change for cards from the Windows XP era which kind of sucks but fair enough, it is proper ancient.</p>
+<p>For a single GPU passed through to one Windows XP virtual machine, I just had to add a &ldquo;PCI Host Device&rdquo; in virt-manager.. typically two actually, one for the GPU function 0, and one for the GPU&rsquo;s HDMI audio function 1. Once that&rsquo;s done, change the <code>Video</code> model to <code>none</code> and edit the VM&rsquo;s XML to look like the following.</p>
+    </section>
+  
+    <section>
+      <h1><span>Friday, 12/05/2023 23:12 UTC</span><a href="/posts/redneck-windows-unattend-xml/">redneck windows unattend.xml</a></h1>
+      <p>So I wanted a base VHD boot image for my laptop so I can quickly create a new Windows installation without having to go through the tedium of running a bunch of WIM commands. The basic idea was to create one base image setup with drivers and updates, then Sysprep that image, and then I can create a new differencing VHD backed by that base image.</p>
+<p>The only downside was that the Windows Out-of-box-&ldquo;experience&rdquo; (OOBE) slowed the whole process down by asking asinine questions about privacy and stuff. I know! I&rsquo;ll automate it.</p>
+    </section>
+  
+    <section>
+      <h1><span>Friday, 12/05/2023 21:45 UTC</span><a href="/posts/generating-option121-classless-static-route/">dhcp option 121 classless static route values</a></h1>
+      <p>Option 121, while incredibly usefull, sure is a fucking pig to use. The option tends to be specified using hexadecimal values of shortened IPv4 network addresses prepended with the CIDR notiation of the mask also in hex. This leads to something like <code>option 121 hex 180a.0100.0a00.1efe</code> in Cisco-ish. Wtf does that mean??</p>
+<h2 id="what-is-o-121">What is O-121</h2>
+<p>For those who don&rsquo;t know, DHCP O-121 is another way to provide routes to clients other than setting the <code>default-gateway</code> option. The main difference is that O-121 lets you send multiple CIDR routes allowing an automatic routing table like below. This can make routing to other local networks far more efficient than just routing the traffic through the default gateway, especially for networks like mine where the DGW is a piece of shit 1841 with 100Mbps NICs and my server has 4-8Gb of bandwidth to the LAN depending on what I&rsquo;m doing with it at the time. The obvious answer would be to use a L3 switch but I don&rsquo;t have one and DHCP options are free.</p>
+    </section>
+  
+    <section>
+      <h1><span>Sunday, 09/04/2023 17:41 UTC</span><a href="/posts/lsi2008-on-el9/">lsi2008 sas controller on el9</a></h1>
+      <h1 id="problem">Problem</h1>
+<p>I&rsquo;ve neglected my home server for a while now so I figured I&rsquo;d upgrade it with some new boot SSDs and a case that isn&rsquo;t hot-boxing my hard-drives. New boot drives, new OS; I decided to go with Rocky Linux 9.1 since CentOS has been fucked around with.</p>
+<p>Part of this upgrade meant moving my existing HDDs off of the integrated SATA controller onto their own dedicated SAS controller with nice clean breakout cables. I decided to test out my setup on a spare PC before messing with anything important and discovered that RedHat in their infinite wisdom have &ldquo;depreciated&rdquo; all models of the LSI2008 from EL. It still works fine on Fedora 38 and Windows out of the box, if that makes any sense at all?!</p>
+    </section>
+  
+    <section>
+      <h1><span>Sunday, 22/05/2016 04:13 UTC</span><a href="/posts/aria2-web-on-el7/">aria2 web on el7</a></h1>
+      <p><a href="https://aria2.github.io/">Aria2</a> is a CLI download manager that can download files over several different protocols. I&rsquo;ve been meaning to set something like this up for ages, as it&rsquo;s better to download files on my server than to leave another machine turned on.</p>
+<h1 id="install-aria2-and-apaches-httpd">Install Aria2 and Apache&rsquo;s httpd</h1>
+<p>The following commands enable the EPEL repo, install <code>aria2</code> and <code>httpd</code>, and adds a firewall rule to allow HTTP traffic from the public zone. If you&rsquo;ve set up different zones (like I have), use the zone that you want to allow access from.</p>
+    </section>
+  
+    <section>
+      <h1><span>Sunday, 15/05/2016 19:20 UTC</span><a href="/posts/whats-the-deal-with-pings/">what&#39;s the deal with pings?</a></h1>
+      <p>Throughout the years I&rsquo;ve been told to turn off ICMP Echo Request (<code>ICMP Type 8</code>) and ICMP Echo Reply (<code>ICMP Type 0</code>), commonly referred to as &ldquo;Ping&rdquo;. Some of these people have been people who <em>should</em> know about this kind of thing like people who work in Network Administration. Their reason: &ldquo;security&rdquo;. I say: &ldquo;bollocks&rdquo;.</p>
+<p>Using the old &ldquo;security&rdquo; excuse is bad enough, because as soon as you mention security to someone who doesn&rsquo;t actively keep up to date with current and past attacks they tend to assume you do. This flaw should usually be circumvented by referencing actual attack techniques that exploit the conditions you want to change, but at no point throughout the years has this been done by anyone whose told me to turn off ICMP Echo. Because of this, I decided to research <strong>why</strong> someone should turn off the ICMP type, and to be honest I was underwhelmed by the reasons.</p>
+    </section>
+  
+    <section>
+      <h1><span>Sunday, 08/05/2016 15:47 UTC</span><a href="/posts/127-bit-masks-vs-64-bit-masks-ptp/">127-bit masks vs 64-bit masks on point-to-point links</a></h1>
+      <p>I was looking through the usual subs on Reddit this morning and there was a post about things that scare people, and one of the comments was from someone who&rsquo;s &ldquo;scared of IPv6&rdquo;. Fair enough, hex does look intimidating at first, especially when you&rsquo;re only familiar with 32-bit dotted-decimal. Underneath this was a comment that said someting along the lines of &ldquo;you can tell how familiar someone is at IPv6 by whether they use /127 or /64 on their point-to-point links&rdquo;, which is a reference to <a href="https://tools.ietf.org/html/rfc6164">RFC6164</a> compared to the commonly spouted &ldquo;use /64s everywere&rdquo; nonsense suggested by a lot of IPv6 learning resources.</p>
+    </section>
+  
+  
+    <ul class="pagination pagination-default">
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/page/2/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul>
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
 </div>
-
-<div>
-    <a href="/managing-firefox-with-intune/">Managing Firefox with Intune</a>
-    <p>
-        Customising Mozilla Firefox with Microsoft Intune using Group Policy ADMX Templates
-    </p>
-</div>
-
-<div>
-    <a href="/deploying-bginfo-with-intune/">Deploying BGInfo with Intune</a>
-    <p>
-        Quick and dirty deployment of BGInfo to make labbing easier
-    </p>
-</div>
-
-<div>
-    <a href="/pcie_passthrough_on_fedora38/">PCIe Passthrough on Fedora 38</a>
-    <p>
-        How I got PCIe Passthrough to work for multiple VMs on F38
-    </p>
-</div>
-
-<div>
-    <a href="/redneck-windows-unattend-xml/">Redneck Windows Unattend.xml</a>
-    <p>
-        How to make Windows use an unattend.xml file, the bodge way
-    </p>
-</div>
-
-<div>
-    <a href="/generating-option121-classless-static-route/">DHCP Option 121 Classless Static Route values</a>
-    <p>
-        How to work out what value to provide for O-121 to give routes to clients
-    </p>
-</div>
-
-<div>
-    <a href="/lsi2008-on-el9/">LSI2008 SAS Controller on EL9</a>
-    <p>
-        The effort needed to get a SAS controller working on EL9
-    </p>
-</div>
-
-<div>
-    <a href="/aria2-web-on-el7/">Aria2 Web on EL7</a>
-    <p>
-        How I set up Aria2 with a WebUI on CentOS
-    </p>
-</div>
-
-<div>
-    <a href="/whats-the-deal-with-pings/">What&#39;s the deal with pings?</a>
-    <p>
-        Some people seem to think that turning ICMP Echo Replies off makes your network more secure. I&#39;m going to explain why this is a load of old bollocks.
-    </p>
-</div>
-
-<div>
-    <a href="/127-bit-masks-vs-64-bit-masks-ptp/">127-bit masks vs 64-bit masks on Point-to-Point links</a>
-    <p>
-        Explaining why /127 is better than /64 on Point-to-Point links by counterarguing a Reddit comment
-    </p>
-</div>
-
-<div>
-    <a href="/wrong-destination/">Wrong destinations are the way to get there</a>
-    <p>
-        Sending an IP packet to the wrong place can let you do some freaky things
-    </p>
-</div>
-
-<div>
-    <a href="/setting-selinux-contexts-the-proper-way/">Setting SELinux Contexts the Proper Way</a>
-    <p>
-        SELinux is confusing, especially when almost every example is bullshit. This is a shitty attempt at saying the proper way to set SELinux contexts on files and directories.
-    </p>
-</div>
-
-<div>
-    <a href="/option-121-my-favourite-option/">Option 121: My Favourite Option</a>
-    <p>
-        I had some performance issue with copying files to but not from a subnet. DHCP option 121 to the rescue!
-    </p>
-</div>
-
-<div>
-    <a href="/building-deluge-on-centos-7/">Building Deluge on CentOS 7</a>
-    <p>
-        I&#39;ve decided to reinstall the OS on my server from an aging version of Fedora to CentOS. Since I use Deluge for .torrent downloads, and don&#39;t want to switch to another client, I&#39;ve had to build it from source because it isn&#39;t included in any of the EL7 repositories.
-    </p>
-</div>
-
-<div>
-    <a href="/bridging-router-interfaces-in-ios/">Bridging Router Interfaces in IOS</a>
-    <p>
-        Needed to bridge two router interfaces on a Cisco router to save from having to install a switch.
-    </p>
-</div>
- 
-		<footer>
-		    <hr />
-				<img src="/images/msn_2.gif" class="banner" />
-			<hr />
-			<ul>
-				<li><a href="https://github.com/DanDonoghue">GitHub</a></li>
-				<li><a href="https://uk.linkedin.com/in/daniel-donoghue-91349598">LinkedIn</a></li>
-				<li><a href="/about-me">About me</a></li>
-			</ul>
-			<hr />
-			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/internet-explorer-2000.gif" />
-			<img src="https://www.webdesignmuseum.org/uploaded/exhibitions/web-banners-in-the-90s/quicktime-4-0-2000.gif" />
-			<img src="/images/apache.gif" />
-			<img src="/images/html_4.png" />
-			<img src="/images/firefox.png" />
-			<hr />
-			<p>&COPY; 1999</p>
-		</footer>
-	</body>
+  </footer>
+</body>
 </html>
-

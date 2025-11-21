@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>LSI2008 SAS Controller on EL9 | the website of dan donoghue</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/lsi2008-on-el9/">lsi2008 sas controller on el9</a></h1>
+	<p>Sunday, 09/04/2023 17:41 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <h1 id="problem">Problem</h1>
+<p>I&rsquo;ve neglected my home server for a while now so I figured I&rsquo;d upgrade it with some new boot SSDs and a case that isn&rsquo;t hot-boxing my hard-drives. New boot drives, new OS; I decided to go with Rocky Linux 9.1 since CentOS has been fucked around with.</p>
+<p>Part of this upgrade meant moving my existing HDDs off of the integrated SATA controller onto their own dedicated SAS controller with nice clean breakout cables. I decided to test out my setup on a spare PC before messing with anything important and discovered that RedHat in their infinite wisdom have &ldquo;depreciated&rdquo; all models of the LSI2008 from EL. It still works fine on Fedora 38 and Windows out of the box, if that makes any sense at all?!</p>
+<h1 id="solution">Solution</h1>
+<p>By deprecating a perfectly fine module, RH turned something simple into a pain in the ass. Shit should be plug-and-play on Linux, that&rsquo;s like one of the biggest benefits of the whole thing.</p>
+<p>This guy on YouTube explains the whole fix but the video&rsquo;s 33 minutes about a SAS controller, who&rsquo;s got the attention span for that!</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/4fOAuXiynYM?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+<h2 id="fixing-with-boot-drive-on-seperate-controller">Fixing with boot drive on seperate controller</h2>
+<p>So to sort this shitshow out, you have to enable the ElRepo repository, install <code>kmod-mpt3sas</code>, and reboot; which you can do as follows:</p>
+<pre tabindex="0"><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+dnf install https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
+dnf install kmod-mpt3sas
+reboot
+</code></pre><h2 id="fixing-with-boot-drive-on-sas-controller">Fixing with boot drive on SAS controller</h2>
+<p>If you want to have your boot drive on the SAS controller, you need to install with a driver disk. The guy in the YouTube video shows how to do this pretty well, but basically you got to download the correct driver disk from <a href="https://elrepo.org/linux/dud/el9/x86_64/">https://elrepo.org/linux/dud/el9/x86_64/</a> (the ones starting <code>dd-mpt3sas</code> for LSI2008) and write the image to a USB drive.</p>
+<p>To force driver disk initialisation in EL, append <code>inst.dd</code> to the kernel args when you boot the installer. This will make it ask where to load the driver from, even if it doesn&rsquo;t auto-detect the disk.</p>
+<p>Once shit&rsquo;s installed you can add the ElRepo repository just like above to have access to updates in the package manager.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

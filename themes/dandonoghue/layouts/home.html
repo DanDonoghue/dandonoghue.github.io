@@ -1,0 +1,12 @@
+{{ define "main" }}
+  {{ .Content }}
+  {{ $pages := where site.RegularPages "Type" "posts" }}
+  {{ $paginator := .Paginate $pages 10 }}
+  {{ range $paginator.Pages }}
+    <section>
+      <h1><span>{{ .Date.Format "Monday, 02/01/2006 15:04 MST" }}</span><a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a></h1>
+      {{ .Summary }}
+    </section>
+  {{ end }}
+  {{ partial "pagination.html" . }}
+{{ end }}

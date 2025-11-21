@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Setting SELinux Contexts the Proper Way | the website of dan donoghue</title>
+
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/setting-selinux-contexts-the-proper-way/">setting selinux contexts the proper way</a></h1>
+	<p>Monday, 02/05/2016 05:37 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>Almost every mention of SELinux Contexts online references the use of <code>chcon(1)</code> for setting contexts on file and directories. This is a pretty shit way of setting contexts, since these changes don&rsquo;t stay when the file system is relabeled, and with <code>chcon(1)</code> the contexts need to be manually set again after an OS reinstallation.</p>
+<p>The proper way to set contexts is to use <code>semanage(8)</code>, which appends a new line with the rule to <code>/etc/selinux/targeted/contexts/files/file_contexts.local</code>. Real useful, since the relabelling of a file-system will follow whatever rules are specified within this file, and it&rsquo;s far easier to copy the <code>file_contexts.local</code> file than it would be to manually run <code>chcon(1)</code> after a relabel/reinstallation.</p>
+<p>Setting contexts with <code>semanage(8)</code> and <code>restorecon(8)</code> is actually a lot less effort than using <code>chcon(1)</code>, mainly because you don&rsquo;t have to specify the context after the first command. I&rsquo;ll give an example. Say you have a directory <code>/mnt/storage/My Files</code> that you want to share via Samba, well it needs the <code>samba_share_t</code> context. To give it this context with <code>chcon(1)</code> you&rsquo;d run <code>chcon -t samba_share_t /mnt/storage/My\ Files</code>, which does work. Now you&rsquo;re copying a load of files from some other directory into the &ldquo;My Files&rdquo; directory, these all need the <code>samba_share_t</code> context, so you&rsquo;ve got to run <code>chcon -t samba_share_t /mnt/storage/My\ Files -R</code> to set the correct context. That&rsquo;s a bit of a mouthful.</p>
+<p>Using <code>semanage(8)</code>, this could be reduced down to running <code>semanage fcontext -a -t CONTEXT &quot;REGEX&quot;</code> once, and then running <code>restorecon -R PATH</code>. That&rsquo;s a lot less typing for the same effect, with the benefit of the rule being permanent, and transferable between reinstallations. The use of regular expressions is the only real part that&rsquo;s slightly more complex than using <code>chcon(1)</code>, but if you&rsquo;re playing about with SELinux then you should be the kind of user who knows or is learning regex anyway. Most of the paths you&rsquo;d want to use are either using wildcards <code>(.*)</code>, or spaces <code>[\s]</code>. The example below uses <code>(/.*)</code>, which matches both the parent directory and its contents, basically a short way of saying both <code>/mnt/storage/My Files</code> and everything inside of it.</p>
+<pre tabindex="0"><code>semanage fcontext -a -t samba_share_t &#39;/mnt/storage/My[\s]Files(/.*)?&#39;
+restorecon -R /mnt/storage/My\ Files
+</code></pre><p>Another useful rule is for the custom home-dir location. Say home directories are actually stored at <code>/mnt/storage/home</code>, you can run the following to get the context of this directory to persist.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>semanage fcontext -a -t home_root_t <span style="color:#e6db74">&#39;/mnt/storage/home&#39;</span>
+</span></span><span style="display:flex;"><span>semanage fcontext -a -t user_home_t <span style="color:#e6db74">&#39;/mnt/storage/home/(.*)?&#39;</span></span></span></code></pre></div>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

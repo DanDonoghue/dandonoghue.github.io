@@ -1,124 +1,124 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dan Donoghue</title>
-    <link>http://dan.donoghue.eu/</link>
-    <description>Recent content on Dan Donoghue</description>
+    <title>Home on the website of dan donoghue</title>
+    <link>https://dan.donoghue.eu/</link>
+    <description>Recent content in Home on the website of dan donoghue</description>
     <generator>Hugo</generator>
     <language>en-gb</language>
     <lastBuildDate>Sun, 16 Jul 2023 14:28:00 +0000</lastBuildDate>
-    <atom:link href="http://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bulk Updating Usage Location in AzureAD</title>
-      <link>http://dan.donoghue.eu/updating-usage-location-azuread/</link>
+      <link>https://dan.donoghue.eu/posts/updating-usage-location-azuread/</link>
       <pubDate>Sun, 16 Jul 2023 14:28:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/updating-usage-location-azuread/</guid>
+      <guid>https://dan.donoghue.eu/posts/updating-usage-location-azuread/</guid>
       <description>&lt;p&gt;Country codes are &lt;a href=&#34;https://www.iban.com/country-codes&#34;&gt;ISO 3166&lt;/a&gt;&lt;/p&gt;&#xA;&lt;script src=&#34;https://gist.github.com/DanDonoghue/719a92c008a641ae9704ef7958670c5d.js&#34;&gt;&lt;/script&gt;</description>
     </item>
     <item>
       <title>Managing Firefox with Intune</title>
-      <link>http://dan.donoghue.eu/managing-firefox-with-intune/</link>
+      <link>https://dan.donoghue.eu/posts/managing-firefox-with-intune/</link>
       <pubDate>Mon, 26 Jun 2023 19:00:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/managing-firefox-with-intune/</guid>
+      <guid>https://dan.donoghue.eu/posts/managing-firefox-with-intune/</guid>
       <description>&lt;h2 id=&#34;import-admx-files&#34;&gt;Import ADMX Files&lt;/h2&gt;&#xA;&lt;p&gt;You&amp;rsquo;ll need to download the latest policy_templates ZIP file from the release assets on &lt;a href=&#34;https://github.com/mozilla/policy-templates/releases&#34;&gt;this page&lt;/a&gt;. Extract these, then you need to upload them to Intune.&lt;/p&gt;&#xA;&lt;p&gt;You&amp;rsquo;ll need to go to Devices &amp;gt; Windows &amp;gt; &lt;a href=&#34;https://endpoint.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesWindowsMenu/~/configProfiles&#34;&gt;Configuration Profiles&lt;/a&gt; and then choose &lt;strong&gt;Import ADMX&lt;/strong&gt; from the top.&lt;/p&gt;&#xA;&lt;p&gt;From this page, choose &lt;strong&gt;Import&lt;/strong&gt;. Intune will ask for an ADMX file and an ADML file. First, upload &lt;strong&gt;windows\mozilla.admx&lt;/strong&gt; and &lt;strong&gt;windows\en-US\mozilla.adml&lt;/strong&gt; from the extracted policies ZIP file.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Deploying BGInfo with Intune</title>
-      <link>http://dan.donoghue.eu/deploying-bginfo-with-intune/</link>
+      <link>https://dan.donoghue.eu/posts/deploying-bginfo-with-intune/</link>
       <pubDate>Sun, 18 Jun 2023 14:49:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/deploying-bginfo-with-intune/</guid>
+      <guid>https://dan.donoghue.eu/posts/deploying-bginfo-with-intune/</guid>
       <description>&lt;p&gt;This is purely robbed from this &lt;a href=&#34;https://www.reddit.com/r/Intune/comments/rk9x8h/bginfo_for_intune_endpoint_manager/&#34;&gt;Reddit post&lt;/a&gt; with me un-fucking the formatting so it works.&lt;/p&gt;&#xA;&lt;p&gt;The basic instructions are to:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Get BGInfo from &lt;a href=&#34;https://learn.microsoft.com/en-us/sysinternals/downloads/bginfo&#34;&gt;Sysinternals&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Run BGInfo, create your template, and save it as &lt;code&gt;bginfo.bgi&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Get &lt;code&gt;IntuneWinAppUtil.exe&lt;/code&gt; from this &lt;a href=&#34;https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool&#34;&gt;GitHub repo&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Package the scripts, template, and BGInfo&lt;/li&gt;&#xA;&lt;li&gt;Add the package to Intune, and deploy it&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h1 id=&#34;creating-the-intunewin-package&#34;&gt;Creating the .intunewin package&lt;/h1&gt;&#xA;&lt;p&gt;You&amp;rsquo;ll need an install/uninstall script, which are shown here. Dump these in a folder as &lt;code&gt;install.ps1&lt;/code&gt; and &lt;code&gt;uninstall.ps1&lt;/code&gt; along with your &lt;code&gt;bginfo.bgi&lt;/code&gt; templace and &lt;code&gt;BGInfo64.exe&lt;/code&gt;. Since this is for labbing, I won&amp;rsquo;t bother with signing or any of that stuff.&lt;/p&gt;</description>
     </item>
     <item>
       <title>PCIe Passthrough on Fedora 38</title>
-      <link>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</link>
+      <link>https://dan.donoghue.eu/posts/pcie_passthrough_on_fedora38/</link>
       <pubDate>Sat, 20 May 2023 10:00:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/pcie_passthrough_on_fedora38/</guid>
+      <guid>https://dan.donoghue.eu/posts/pcie_passthrough_on_fedora38/</guid>
       <description>&lt;p&gt;This is a lot simpler these days with modern-ish cards and a modern-ish OS because nVidia&amp;rsquo;s lifted their wanky restrictions in their drivers. Unfortunately they haven&amp;rsquo;t backported this change for cards from the Windows XP era which kind of sucks but fair enough, it is proper ancient.&lt;/p&gt;&#xA;&lt;p&gt;For a single GPU passed through to one Windows XP virtual machine, I just had to add a &amp;ldquo;PCI Host Device&amp;rdquo; in virt-manager.. typically two actually, one for the GPU function 0, and one for the GPU&amp;rsquo;s HDMI audio function 1. Once that&amp;rsquo;s done, change the &lt;code&gt;Video&lt;/code&gt; model to &lt;code&gt;none&lt;/code&gt; and edit the VM&amp;rsquo;s XML to look like the following.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Redneck Windows Unattend.xml</title>
-      <link>http://dan.donoghue.eu/redneck-windows-unattend-xml/</link>
+      <link>https://dan.donoghue.eu/posts/redneck-windows-unattend-xml/</link>
       <pubDate>Fri, 12 May 2023 23:12:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/redneck-windows-unattend-xml/</guid>
+      <guid>https://dan.donoghue.eu/posts/redneck-windows-unattend-xml/</guid>
       <description>&lt;p&gt;So I wanted a base VHD boot image for my laptop so I can quickly create a new Windows installation without having to go through the tedium of running a bunch of WIM commands. The basic idea was to create one base image setup with drivers and updates, then Sysprep that image, and then I can create a new differencing VHD backed by that base image.&lt;/p&gt;&#xA;&lt;p&gt;The only downside was that the Windows Out-of-box-&amp;ldquo;experience&amp;rdquo; (OOBE) slowed the whole process down by asking asinine questions about privacy and stuff. I know! I&amp;rsquo;ll automate it.&lt;/p&gt;</description>
     </item>
     <item>
       <title>DHCP Option 121 Classless Static Route values</title>
-      <link>http://dan.donoghue.eu/generating-option121-classless-static-route/</link>
+      <link>https://dan.donoghue.eu/posts/generating-option121-classless-static-route/</link>
       <pubDate>Fri, 12 May 2023 21:45:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/generating-option121-classless-static-route/</guid>
+      <guid>https://dan.donoghue.eu/posts/generating-option121-classless-static-route/</guid>
       <description>&lt;p&gt;Option 121, while incredibly usefull, sure is a fucking pig to use. The option tends to be specified using hexadecimal values of shortened IPv4 network addresses prepended with the CIDR notiation of the mask also in hex. This leads to something like &lt;code&gt;option 121 hex 180a.0100.0a00.1efe&lt;/code&gt; in Cisco-ish. Wtf does that mean??&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-is-o-121&#34;&gt;What is O-121&lt;/h2&gt;&#xA;&lt;p&gt;For those who don&amp;rsquo;t know, DHCP O-121 is another way to provide routes to clients other than setting the &lt;code&gt;default-gateway&lt;/code&gt; option. The main difference is that O-121 lets you send multiple CIDR routes allowing an automatic routing table like below. This can make routing to other local networks far more efficient than just routing the traffic through the default gateway, especially for networks like mine where the DGW is a piece of shit 1841 with 100Mbps NICs and my server has 4-8Gb of bandwidth to the LAN depending on what I&amp;rsquo;m doing with it at the time. The obvious answer would be to use a L3 switch but I don&amp;rsquo;t have one and DHCP options are free.&lt;/p&gt;</description>
     </item>
     <item>
       <title>LSI2008 SAS Controller on EL9</title>
-      <link>http://dan.donoghue.eu/lsi2008-on-el9/</link>
+      <link>https://dan.donoghue.eu/posts/lsi2008-on-el9/</link>
       <pubDate>Sun, 09 Apr 2023 17:41:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/lsi2008-on-el9/</guid>
+      <guid>https://dan.donoghue.eu/posts/lsi2008-on-el9/</guid>
       <description>&lt;h1 id=&#34;problem&#34;&gt;Problem&lt;/h1&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve neglected my home server for a while now so I figured I&amp;rsquo;d upgrade it with some new boot SSDs and a case that isn&amp;rsquo;t hot-boxing my hard-drives. New boot drives, new OS; I decided to go with Rocky Linux 9.1 since CentOS has been fucked around with.&lt;/p&gt;&#xA;&lt;p&gt;Part of this upgrade meant moving my existing HDDs off of the integrated SATA controller onto their own dedicated SAS controller with nice clean breakout cables. I decided to test out my setup on a spare PC before messing with anything important and discovered that RedHat in their infinite wisdom have &amp;ldquo;depreciated&amp;rdquo; all models of the LSI2008 from EL. It still works fine on Fedora 38 and Windows out of the box, if that makes any sense at all?!&lt;/p&gt;</description>
     </item>
     <item>
-      <title>About me!</title>
-      <link>http://dan.donoghue.eu/about-me/</link>
-      <pubDate>Thu, 27 Apr 2017 23:37:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/about-me/</guid>
-      <description>&lt;h1 id=&#34;transcripts&#34;&gt;Transcripts&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;bsc_2014_transcript.pdf&#34;&gt;BSc Computer Networking (2014)&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;fdsc_2013_transcript.pdf&#34;&gt;FdSc Computing, Networking, and Software Development (2013)&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;btec_2011_transcript.pdf&#34;&gt;BTEC National Diploma, IT Practitioners (2011)&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Aria2 Web on EL7</title>
-      <link>http://dan.donoghue.eu/aria2-web-on-el7/</link>
+      <link>https://dan.donoghue.eu/posts/aria2-web-on-el7/</link>
       <pubDate>Sun, 22 May 2016 04:13:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/aria2-web-on-el7/</guid>
+      <guid>https://dan.donoghue.eu/posts/aria2-web-on-el7/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://aria2.github.io/&#34;&gt;Aria2&lt;/a&gt; is a CLI download manager that can download files over several different protocols. I&amp;rsquo;ve been meaning to set something like this up for ages, as it&amp;rsquo;s better to download files on my server than to leave another machine turned on.&lt;/p&gt;&#xA;&lt;h1 id=&#34;install-aria2-and-apaches-httpd&#34;&gt;Install Aria2 and Apache&amp;rsquo;s httpd&lt;/h1&gt;&#xA;&lt;p&gt;The following commands enable the EPEL repo, install &lt;code&gt;aria2&lt;/code&gt; and &lt;code&gt;httpd&lt;/code&gt;, and adds a firewall rule to allow HTTP traffic from the public zone. If you&amp;rsquo;ve set up different zones (like I have), use the zone that you want to allow access from.&lt;/p&gt;</description>
     </item>
     <item>
       <title>What&#39;s the deal with pings?</title>
-      <link>http://dan.donoghue.eu/whats-the-deal-with-pings/</link>
+      <link>https://dan.donoghue.eu/posts/whats-the-deal-with-pings/</link>
       <pubDate>Sun, 15 May 2016 19:20:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/whats-the-deal-with-pings/</guid>
+      <guid>https://dan.donoghue.eu/posts/whats-the-deal-with-pings/</guid>
       <description>&lt;p&gt;Throughout the years I&amp;rsquo;ve been told to turn off ICMP Echo Request (&lt;code&gt;ICMP Type 8&lt;/code&gt;) and ICMP Echo Reply (&lt;code&gt;ICMP Type 0&lt;/code&gt;), commonly referred to as &amp;ldquo;Ping&amp;rdquo;. Some of these people have been people who &lt;em&gt;should&lt;/em&gt; know about this kind of thing like people who work in Network Administration. Their reason: &amp;ldquo;security&amp;rdquo;. I say: &amp;ldquo;bollocks&amp;rdquo;.&lt;/p&gt;&#xA;&lt;p&gt;Using the old &amp;ldquo;security&amp;rdquo; excuse is bad enough, because as soon as you mention security to someone who doesn&amp;rsquo;t actively keep up to date with current and past attacks they tend to assume you do. This flaw should usually be circumvented by referencing actual attack techniques that exploit the conditions you want to change, but at no point throughout the years has this been done by anyone whose told me to turn off ICMP Echo. Because of this, I decided to research &lt;strong&gt;why&lt;/strong&gt; someone should turn off the ICMP type, and to be honest I was underwhelmed by the reasons.&lt;/p&gt;</description>
     </item>
     <item>
       <title>127-bit masks vs 64-bit masks on Point-to-Point links</title>
-      <link>http://dan.donoghue.eu/127-bit-masks-vs-64-bit-masks-ptp/</link>
+      <link>https://dan.donoghue.eu/posts/127-bit-masks-vs-64-bit-masks-ptp/</link>
       <pubDate>Sun, 08 May 2016 15:47:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/127-bit-masks-vs-64-bit-masks-ptp/</guid>
+      <guid>https://dan.donoghue.eu/posts/127-bit-masks-vs-64-bit-masks-ptp/</guid>
       <description>&lt;p&gt;I was looking through the usual subs on Reddit this morning and there was a post about things that scare people, and one of the comments was from someone who&amp;rsquo;s &amp;ldquo;scared of IPv6&amp;rdquo;. Fair enough, hex does look intimidating at first, especially when you&amp;rsquo;re only familiar with 32-bit dotted-decimal. Underneath this was a comment that said someting along the lines of &amp;ldquo;you can tell how familiar someone is at IPv6 by whether they use /127 or /64 on their point-to-point links&amp;rdquo;, which is a reference to &lt;a href=&#34;https://tools.ietf.org/html/rfc6164&#34;&gt;RFC6164&lt;/a&gt; compared to the commonly spouted &amp;ldquo;use /64s everywere&amp;rdquo; nonsense suggested by a lot of IPv6 learning resources.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Wrong destinations are the way to get there</title>
-      <link>http://dan.donoghue.eu/wrong-destination/</link>
+      <link>https://dan.donoghue.eu/posts/wrong-destination/</link>
       <pubDate>Sat, 07 May 2016 01:47:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/wrong-destination/</guid>
+      <guid>https://dan.donoghue.eu/posts/wrong-destination/</guid>
       <description>&lt;p&gt;This evening I was just lounging around thinking about BGP, as you do, and reminded myself about an interesting quirk in IP.&lt;/p&gt;&#xA;&lt;h1 id=&#34;whats-bgp-got-to-do-with-it&#34;&gt;What&amp;rsquo;s BGP got to do with it?&lt;/h1&gt;&#xA;&lt;p&gt;The way I was taught BGP at University emphasised using Loopback interfaces to move the single-point-of-failure you&amp;rsquo;d get physical interfaces, to a less-error prone virtual interface. In a basic two router lab setup with loopbacks implemented on both routers, this makes the network look something like the diagram below.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Setting SELinux Contexts the Proper Way</title>
-      <link>http://dan.donoghue.eu/setting-selinux-contexts-the-proper-way/</link>
+      <link>https://dan.donoghue.eu/posts/setting-selinux-contexts-the-proper-way/</link>
       <pubDate>Mon, 02 May 2016 05:37:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/setting-selinux-contexts-the-proper-way/</guid>
+      <guid>https://dan.donoghue.eu/posts/setting-selinux-contexts-the-proper-way/</guid>
       <description>&lt;p&gt;Almost every mention of SELinux Contexts online references the use of &lt;code&gt;chcon(1)&lt;/code&gt; for setting contexts on file and directories. This is a pretty shit way of setting contexts, since these changes don&amp;rsquo;t stay when the file system is relabeled, and with &lt;code&gt;chcon(1)&lt;/code&gt; the contexts need to be manually set again after an OS reinstallation.&lt;/p&gt;&#xA;&lt;p&gt;The proper way to set contexts is to use &lt;code&gt;semanage(8)&lt;/code&gt;, which appends a new line with the rule to &lt;code&gt;/etc/selinux/targeted/contexts/files/file_contexts.local&lt;/code&gt;. Real useful, since the relabelling of a file-system will follow whatever rules are specified within this file, and it&amp;rsquo;s far easier to copy the &lt;code&gt;file_contexts.local&lt;/code&gt; file than it would be to manually run &lt;code&gt;chcon(1)&lt;/code&gt; after a relabel/reinstallation.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Option 121: My Favourite Option</title>
-      <link>http://dan.donoghue.eu/option-121-my-favourite-option/</link>
+      <link>https://dan.donoghue.eu/posts/option-121-my-favourite-option/</link>
       <pubDate>Mon, 25 Apr 2016 09:49:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/option-121-my-favourite-option/</guid>
+      <guid>https://dan.donoghue.eu/posts/option-121-my-favourite-option/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ll start this post off with this: don&amp;rsquo;t judge my skills on how my home network is setup. I use this setup to test out and learn about different techniques, some good, some bad. I would never setup a client&amp;rsquo;s network the way my home network is, but I wouldn&amp;rsquo;t know the best way to do something without trying the wrong ways first.&lt;/p&gt;&#xA;&lt;p&gt;As part of my server reinstallation, I&amp;rsquo;ve been messing about with the routing on my network. Previously, all routing for the LAN was handled by the server itself using the routing features in the Linux kernel. This brought with it several performance issues, mainly when the server was under load the latency of all traffic apart from subnet-local ended up going to shit. This time I decided to use my Cisco 1841 as the default gateway of client-site subnets, reducing the hop count to the demarc by one.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Building Deluge on CentOS 7</title>
-      <link>http://dan.donoghue.eu/building-deluge-on-centos-7/</link>
+      <link>https://dan.donoghue.eu/posts/building-deluge-on-centos-7/</link>
       <pubDate>Sat, 16 Apr 2016 16:43:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/building-deluge-on-centos-7/</guid>
+      <guid>https://dan.donoghue.eu/posts/building-deluge-on-centos-7/</guid>
       <description>&lt;p&gt;Since the &lt;code&gt;deluge&lt;/code&gt; and &lt;code&gt;deluge-web&lt;/code&gt; packages are omitted from the CentOS/RHEL and EPEL repositories for EL7, and I wouldn&amp;rsquo;t trust some unmaintained 3rd-party repo, I decided to build them from source. The instructions on the &lt;a href=&#34;http://dev.deluge-torrent.org/wiki/Installing/Source&#34;&gt;Deluge website&lt;/a&gt; fail to mention anything about what&amp;rsquo;s needed for CentOS/RHEL distributions so I guess I&amp;rsquo;ll write up what&amp;rsquo;s needed here.&lt;/p&gt;&#xA;&lt;h1 id=&#34;download-the-source&#34;&gt;Download the source&lt;/h1&gt;&#xA;&lt;p&gt;Get the latest version of the source from the Deluge project&amp;rsquo;s &lt;a href=&#34;http://download.deluge-torrent.org/source/?C=M;O=D&#34;&gt;Source Mirror&lt;/a&gt;. Then extract the source with &lt;code&gt;tar -xf&lt;/code&gt; .&lt;/p&gt;</description>
     </item>
     <item>
       <title>Bridging Router Interfaces in IOS</title>
-      <link>http://dan.donoghue.eu/bridging-router-interfaces-in-ios/</link>
+      <link>https://dan.donoghue.eu/posts/bridging-router-interfaces-in-ios/</link>
       <pubDate>Fri, 15 Apr 2016 14:03:00 +0000</pubDate>
-      <guid>http://dan.donoghue.eu/bridging-router-interfaces-in-ios/</guid>
+      <guid>https://dan.donoghue.eu/posts/bridging-router-interfaces-in-ios/</guid>
       <description>&lt;p&gt;I have a strange network setup in my house with many subnets all over the place. To save from either putting a switch downstairs, or another cable run between downstairs and the main switches upstairs, I ended up just connecting the front-room TV to one of the WAN FastEthernet interfaces and setting up an internally-routed /24 for it. This setup gave the TV access to the Internet, but prevents it from reaching my Plex DLNA server, meaning no TV or films.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About me!</title>
+      <link>https://dan.donoghue.eu/about-me/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dan.donoghue.eu/about-me/</guid>
+      <description>&lt;h1 id=&#34;transcripts&#34;&gt;Transcripts&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;bsc_2014_transcript.pdf&#34;&gt;BSc Computer Networking (2014)&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;fdsc_2013_transcript.pdf&#34;&gt;FdSc Computing, Networking, and Software Development (2013)&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;btec_2011_transcript.pdf&#34;&gt;BTEC National Diploma, IT Practitioners (2011)&lt;/a&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

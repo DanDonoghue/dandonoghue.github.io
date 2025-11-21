@@ -1,0 +1,16 @@
+<header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+{{ if .IsHome }}
+<header class="title">
+	<h1>{{ lower site.Title }}</h1>
+</header>
+{{ else }}
+<header class="title">
+	<h1><a href="{{ .RelPermalink }}">{{ lower .Title }}</a></h1>
+	<p>{{ if .Params.Date }}{{ .Date.Format "Monday, 02/01/2006 15:04 MST" }}{{end}}</p>
+</header>
+{{ end }}

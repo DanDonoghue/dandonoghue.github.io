@@ -1,0 +1,5 @@
+baseURL = 'https://dan.donoghue.eu/'
+languageCode = 'en-gb'
+title = 'the website of dan donoghue'
+theme = "dandonoghue"
+publishDir = "docs"

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Redneck Windows Unattend.xml | the website of dan donoghue</title>
+
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/redneck-windows-unattend-xml/">redneck windows unattend.xml</a></h1>
+	<p>Friday, 12/05/2023 23:12 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p>So I wanted a base VHD boot image for my laptop so I can quickly create a new Windows installation without having to go through the tedium of running a bunch of WIM commands. The basic idea was to create one base image setup with drivers and updates, then Sysprep that image, and then I can create a new differencing VHD backed by that base image.</p>
+<p>The only downside was that the Windows Out-of-box-&ldquo;experience&rdquo; (OOBE) slowed the whole process down by asking asinine questions about privacy and stuff. I know! I&rsquo;ll automate it.</p>
+<h2 id="unattendxml">Unattend.xml</h2>
+<p>While playing around, I wanted to test out a few different ways of using unattend.xml but applying it when running the Sysprep command was taking too damn long. I wanted a quicker way&hellip; what if I ran Sysprep, took a snapshot, and then dumped <code>unattend.xml</code> into the VM where it&rsquo;s supposed to go? Hmm that could work.</p>
+<p>Now, finding out where that XML went was a bit of a pain because Google would come up with millions of results about using it with <code>Sysprep.exe</code> or <code>setup.exe</code> or with MDT. Eventually I found a post that said that it gets saved to <code>\Windows\Panther\unattend.xml</code>. Finally, so I came up with this simple file that&rsquo;ll set the keyboard to the good old English UK layout, set the Administrator password to <code>Pa$$w0rd</code>, and auto-logon a couple of times to save having to login and watch for hours while Windows sets up the new user profile.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;unattend</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;urn:schemas-microsoft-com:unattend&#34;</span> <span style="color:#a6e22e">xmlns:wcm=</span><span style="color:#e6db74">&#34;http://schemas.microsoft.com/WMIConfig/2002/State&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;settings</span> <span style="color:#a6e22e">pass=</span><span style="color:#e6db74">&#34;windowsPE&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;component</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Microsoft-Windows-International-Core-WinPE&#34;</span> <span style="color:#a6e22e">processorArchitecture=</span><span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#a6e22e">publicKeyToken=</span><span style="color:#e6db74">&#34;31bf3856ad364e35&#34;</span> <span style="color:#a6e22e">language=</span><span style="color:#e6db74">&#34;neutral&#34;</span> <span style="color:#a6e22e">versionScope=</span><span style="color:#e6db74">&#34;nonSxS&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;SetupUILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;UILanguage&gt;</span>en-US<span style="color:#f92672">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/SetupUILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;InputLocale&gt;</span>0809:00000809<span style="color:#f92672">&lt;/InputLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;SystemLocale&gt;</span>en-GB<span style="color:#f92672">&lt;/SystemLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UILanguage&gt;</span>en-US<span style="color:#f92672">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UserLocale&gt;</span>en-GB<span style="color:#f92672">&lt;/UserLocale&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;component</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Microsoft-Windows-Setup&#34;</span> <span style="color:#a6e22e">processorArchitecture=</span><span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#a6e22e">publicKeyToken=</span><span style="color:#e6db74">&#34;31bf3856ad364e35&#34;</span> <span style="color:#a6e22e">language=</span><span style="color:#e6db74">&#34;neutral&#34;</span> <span style="color:#a6e22e">versionScope=</span><span style="color:#e6db74">&#34;nonSxS&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UserData&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;ProductKey&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;Key&gt;&lt;/Key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/ProductKey&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;AcceptEula&gt;</span>true<span style="color:#f92672">&lt;/AcceptEula&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/UserData&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/settings&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;settings</span> <span style="color:#a6e22e">pass=</span><span style="color:#e6db74">&#34;oobeSystem&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;component</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Microsoft-Windows-International-Core&#34;</span> <span style="color:#a6e22e">processorArchitecture=</span><span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#a6e22e">publicKeyToken=</span><span style="color:#e6db74">&#34;31bf3856ad364e35&#34;</span> <span style="color:#a6e22e">language=</span><span style="color:#e6db74">&#34;neutral&#34;</span> <span style="color:#a6e22e">versionScope=</span><span style="color:#e6db74">&#34;nonSxS&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;InputLocale&gt;</span>0809:00000809<span style="color:#f92672">&lt;/InputLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;SystemLocale&gt;</span>en-GB<span style="color:#f92672">&lt;/SystemLocale&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UILanguage&gt;</span>en-US<span style="color:#f92672">&lt;/UILanguage&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UserLocale&gt;</span>en-GB<span style="color:#f92672">&lt;/UserLocale&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;component</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Microsoft-Windows-Shell-Setup&#34;</span> <span style="color:#a6e22e">processorArchitecture=</span><span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#a6e22e">publicKeyToken=</span><span style="color:#e6db74">&#34;31bf3856ad364e35&#34;</span> <span style="color:#a6e22e">language=</span><span style="color:#e6db74">&#34;neutral&#34;</span> <span style="color:#a6e22e">versionScope=</span><span style="color:#e6db74">&#34;nonSxS&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;UserAccounts&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;AdministratorPassword&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;Value&gt;</span>UABhACQAJAB3ADAAcgBkAEEAZABtAGkAbgBpAHMAdAByAGEAdABvAHIAUABhAHMAcwB3AG8AcgBkAA==<span style="color:#f92672">&lt;/Value&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;PlainText&gt;</span>false<span style="color:#f92672">&lt;/PlainText&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/AdministratorPassword&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/UserAccounts&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;AutoLogon&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;Username&gt;</span>Administrator<span style="color:#f92672">&lt;/Username&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;Enabled&gt;</span>true<span style="color:#f92672">&lt;/Enabled&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;LogonCount&gt;</span>1<span style="color:#f92672">&lt;/LogonCount&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;Password&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;Value&gt;</span>UABhACQAJAB3ADAAcgBkAFAAYQBzAHMAdwBvAHIAZAA=<span style="color:#f92672">&lt;/Value&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;PlainText&gt;</span>false<span style="color:#f92672">&lt;/PlainText&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/Password&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/AutoLogon&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;OOBE&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;ProtectYourPC&gt;</span>3<span style="color:#f92672">&lt;/ProtectYourPC&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;HideEULAPage&gt;</span>true<span style="color:#f92672">&lt;/HideEULAPage&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;HideWirelessSetupInOOBE&gt;</span>true<span style="color:#f92672">&lt;/HideWirelessSetupInOOBE&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/OOBE&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/component&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/settings&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;cpi:offlineImage</span> <span style="color:#a6e22e">cpi:source=</span><span style="color:#e6db74">&#34;wim:c:/users/dan/documents/install.wim#Windows 11 Pro&#34;</span> <span style="color:#a6e22e">xmlns:cpi=</span><span style="color:#e6db74">&#34;urn:schemas-microsoft-com:cpi&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/unattend&gt;</span></span></span></code></pre></div>
+<p>Now I can spin up a fresh copy of Windows in a couple of minutes, while only taking up ~12GB of my Surface Pro 5&rsquo;s tiny SSD no matter how many copies I make; and because the image is Sysprepped it&rsquo;s all good for fuckign about with Active Directory.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>
