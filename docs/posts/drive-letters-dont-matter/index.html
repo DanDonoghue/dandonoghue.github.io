@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Drive Letters don&#39;t matter | the website of dan donoghue</title>
+
+      <link rel="stylesheet" href="/css/main.min.09d76cae57e2b70cddfd9e088c87da2388439d1479f7285714bf316d3d26daf3.css" integrity="sha256-Cddsrlfitwzd/Z4IjIfaI4hDnRR59yhXFL8xbT0m2vM=" crossorigin="anonymous">
+
+
+        <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <header class="links">
+	<a href="/"><img src="/home.png" /></a>
+	<a href="https://uk.linkedin.com/in/daniel-donoghue-91349598"><img src="/linkedin.png" /></a>
+	<a href="https://www.github.com/DanDonoghue"><img src="/github-mark.png" /></a>
+    <a href="/about-me"><img src="/about.png"></a>
+</header>
+
+<header class="title">
+	<h1><a href="/posts/drive-letters-dont-matter/">drive letters don&#39;t matter</a></h1>
+	<p>Monday, 24/11/2025 01:03 UTC</p>
+</header>
+
+  </header>
+  <main>
+    
+  <p><strong>tldr:</strong> set unwanted disks to offline. if you want to protect another partition on your OS drive, too bad.</p>
+<p>So I&rsquo;ve just learnt something fun which makes me question the separation of Windows installs on my PC. Windows doesn&rsquo;t need drive letters to access filesystems. I assumed if you don&rsquo;t set a mount point (drive letter or folder path) then a filesystem was inaccessible, but it turns out that&rsquo;s not the case.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Get-Volume | Select-Object DriveLetter, FileSystemLabel, Path
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DriveLetter FileSystemLabel Path
+</span></span><span style="display:flex;"><span>----------- --------------- ----
+</span></span><span style="display:flex;"><span>            Test            \\?\Volume{82df1155-2db0-4bd2-a437-4a91cbb05d10}\
+</span></span><span style="display:flex;"><span>C           Windows         \\?\Volume{de3be8f7-<span style="color:#ae81ff">1617</span>-4ca4-a360-4c10abfef865}\
+</span></span></code></pre></div><p>See the above PowerShell; I have two volumes on my system. One that&rsquo;s <code>Windows</code> on <code>C:</code>, and another labelled <code>Test</code> that&rsquo;s not mounted. But what&rsquo;s the <code>Path</code> property?</p>
+<p>Well the <code>Path</code> is (unsurprisingly) the path to the volume. Replace the <code>?</code> with <code>.</code> and you&rsquo;ll be able to read and write to the unmounted filesystem.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS C:\Users\Dan&gt; <span style="color:#e6db74">&#34;Hello World&#34;</span> &gt; <span style="color:#e6db74">&#34;\\.\Volume{82df1155-2db0-4bd2-a437-4a91cbb05d10}\test.txt&#34;</span>
+</span></span><span style="display:flex;"><span>PS C:\Users\Dan&gt; dir <span style="color:#e6db74">&#34;\\.\Volume{82df1155-2db0-4bd2-a437-4a91cbb05d10}\&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Directory<span style="color:#960050;background-color:#1e0010">:</span> \\.\Volume{82df1155-2db0-4bd2-a437-4a91cbb05d10}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Mode                 LastWriteTime         Length Name
+</span></span><span style="display:flex;"><span>----                 -------------         ------ ----
+</span></span><span style="display:flex;"><span>-a----        <span style="color:#ae81ff">24</span>/<span style="color:#ae81ff">11</span>/<span style="color:#ae81ff">2025</span>     <span style="color:#ae81ff">00</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">48</span>             <span style="color:#ae81ff">28</span> test.txt
+</span></span></code></pre></div><p>If you really want a volume to be untouchable, you&rsquo;ve got to set it to <code>offline</code> in Disk Management or with the <code>Set-Disk -IsOffline $true</code> cmdlet. I guess not setting them to <code>offline</code> could lead to malware spreading from one OS install to another.</p>
+
+
+  </main>
+  <footer>
+    <div class="copyright">
+    <p>&copy; dan donoghue 2016-present. contents and theme licensed under <a href="/LICENSE" target="_blank">apache 2.0</a>. source available on <a href="https://github.com/DanDonoghue/dandonoghue.github.io" target="_blank">github</a></p>
+</div>
+  </footer>
+</body>
+</html>

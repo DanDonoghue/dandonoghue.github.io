@@ -6,8 +6,15 @@
     <description>Recent content in Home on the website of dan donoghue</description>
     <generator>Hugo</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 16 Jul 2023 14:28:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Nov 2025 01:03:00 +0000</lastBuildDate>
     <atom:link href="https://dan.donoghue.eu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Drive Letters don&#39;t matter</title>
+      <link>https://dan.donoghue.eu/posts/drive-letters-dont-matter/</link>
+      <pubDate>Mon, 24 Nov 2025 01:03:00 +0000</pubDate>
+      <guid>https://dan.donoghue.eu/posts/drive-letters-dont-matter/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;tldr:&lt;/strong&gt; set unwanted disks to offline. if you want to protect another partition on your OS drive, too bad.&lt;/p&gt;&#xA;&lt;p&gt;So I&amp;rsquo;ve just learnt something fun which makes me question the separation of Windows installs on my PC. Windows doesn&amp;rsquo;t need drive letters to access filesystems. I assumed if you don&amp;rsquo;t set a mount point (drive letter or folder path) then a filesystem was inaccessible, but it turns out that&amp;rsquo;s not the case.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Bulk Updating Usage Location in AzureAD</title>
       <link>https://dan.donoghue.eu/posts/updating-usage-location-azuread/</link>
